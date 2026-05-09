@@ -46,61 +46,67 @@
                 <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4">
                     <div class="space-y-3">
                         <div>
-                            <label class="form-label text-[10px] font-bold text-gray-500 uppercase">Kuota Input Data</label>
-                            <input type="number" id="jmlData" class="input-field w-full border border-[#c3c6d1] p-2 rounded-lg outline-none focus:border-[#003366]" placeholder="Limit data">
+                            <label class="form-label">Kuota Input Data</label>
+                            <input type="number" id="jmlData" class="input-field" placeholder="Limit data">
                         </div>
                         <div>
-                            <label class="form-label text-[10px] font-bold text-gray-500 uppercase">Kode Pendaftaran (A/B/V)</label>
-                            <input type="text" id="kode" oninput="updateLocationHint()" placeholder="A2-101-9" class="input-field w-full border border-[#c3c6d1] p-2 rounded-lg outline-none focus:border-[#003366] font-mono uppercase font-bold text-blue-800">
+                            <label class="form-label">Kode Pendaftaran (A/B/V)</label>
+                            <input type="text" id="kode" oninput="updateLocationHint()" placeholder="A2-101-9" class="input-field font-mono uppercase font-bold text-blue-800">
                         </div>
                         <div>
-                            <label class="form-label text-[10px] font-bold text-gray-500 uppercase">Nama Pendaftar</label>
-                            <input type="text" id="nama" class="input-field w-full border border-[#c3c6d1] p-2 rounded-lg outline-none focus:border-[#003366]">
+                            <label class="form-label">Nama Pendaftar</label>
+                            <input type="text" id="nama" class="input-field">
                         </div>
                         <div class="grid grid-cols-2 gap-2">
                             <div>
-                                <label class="form-label text-[10px] font-bold text-gray-500 uppercase">Jenis Kelamin</label>
-                                <select id="jk" class="input-field w-full border border-[#c3c6d1] p-2 rounded-lg outline-none focus:border-[#003366]">
-                                    <option value="Laki-laki">Laki-laki</option>
-                                    <option value="Perempuan">Perempuan</option>
-                                </select>
+                                <label class="form-label">Tgl Daftar (Otomatis)</label>
+                                <input type="text" id="tglDaftar" class="input-field bg-gray-100 text-gray-500 font-semibold" readonly>
                             </div>
                             <div>
-                                <label class="form-label text-[10px] font-bold text-gray-500 uppercase">Tgl Daftar/Lahir</label>
-                                <input type="date" id="tglLahir" class="input-field w-full border border-[#c3c6d1] p-2 rounded-lg outline-none focus:border-[#003366]">
+                                <label class="form-label">Tgl Lahir (Pilih)</label>
+                                <input type="date" id="tglLahir" class="input-field">
                             </div>
                         </div>
                     </div>
 
                     <div class="space-y-3">
                         <div>
-                            <label class="form-label text-[10px] font-bold text-gray-500 uppercase">Asal Sekolah</label>
-                            <input type="text" id="asal" class="input-field w-full border border-[#c3c6d1] p-2 rounded-lg outline-none focus:border-[#003366]">
+                            <label class="form-label">Asal Sekolah</label>
+                            <input type="text" id="asal" class="input-field">
                         </div>
-                        <div>
-                            <label class="form-label text-[10px] font-bold text-gray-500 uppercase">Pekerjaan Ortu</label>
-                            <select id="ortu" class="input-field w-full border border-[#c3c6d1] p-2 rounded-lg outline-none focus:border-[#003366]">
-                                <option value="PNS">PNS</option>
-                                <option value="Swasta">Swasta</option>
-                                <option value="Wiraswasta">Wiraswasta</option>
-                                <option value="Buruh">Buruh</option>
-                                <option value="Lainnya">Lainnya</option>
-                            </select>
+                        <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <label class="form-label">Jenis Kelamin</label>
+                                <select id="jk" class="input-field">
+                                    <option value="Laki-laki">Laki-laki</option>
+                                    <option value="Perempuan">Perempuan</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="form-label">Pekerjaan Ortu</label>
+                                <select id="ortu" class="input-field">
+                                    <option value="PNS">PNS</option>
+                                    <option value="Swasta">Swasta</option>
+                                    <option value="Wiraswasta">Wiraswasta</option>
+                                    <option value="Buruh">Buruh</option>
+                                    <option value="Lainnya">Lainnya</option>
+                                </select>
+                            </div>
                         </div>
                         <div class="pt-2">
-                            <label class="form-label text-blue-800 border-b mb-3 font-bold uppercase text-[10px]">Nilai Tes Seleksi</label>
+                            <label class="form-label text-blue-800 border-b border-blue-100 pb-1 mb-2">Nilai Tes Seleksi</label>
                             <div class="grid grid-cols-3 gap-2">
                                 <div>
                                     <label class="text-[9px] text-gray-400 uppercase font-bold text-center block">MAT</label>
-                                    <input type="number" id="mat" class="input-field w-full border border-[#c3c6d1] p-2 rounded-lg text-center">
+                                    <input type="number" id="mat" class="input-field text-center" placeholder="0">
                                 </div>
                                 <div>
                                     <label class="text-[9px] text-gray-400 uppercase font-bold text-center block">ING</label>
-                                    <input type="number" id="ing" class="input-field w-full border border-[#c3c6d1] p-2 rounded-lg text-center">
+                                    <input type="number" id="ing" class="input-field text-center" placeholder="0">
                                 </div>
                                 <div>
                                     <label class="text-[9px] text-gray-400 uppercase font-bold text-center block">UMUM</label>
-                                    <input type="number" id="umum" class="input-field w-full border border-[#c3c6d1] p-2 rounded-lg text-center">
+                                    <input type="number" id="umum" class="input-field text-center" placeholder="0">
                                 </div>
                             </div>
                         </div>
@@ -108,22 +114,22 @@
                 </div>
 
                 <div class="px-6 py-4 bg-gray-50 border-t border-[#c3c6d1] flex flex-col md:flex-row gap-2 rounded-b-xl">
-                    <button onclick="simpanData()" id="btnSimpan" class="bg-[#003366] text-white px-6 py-2 rounded-lg font-bold uppercase text-xs hover:bg-[#001e40] transition-all">Simpan Data</button>
-                    <button onclick="resetForm()" class="bg-white border border-[#c3c6d1] text-gray-600 px-6 py-2 rounded-lg font-bold uppercase text-xs hover:bg-gray-100 transition-all">Hapus Form</button>
+                    <button onclick="simpanData()" id="btnSimpan" class="btn-primary">Simpan Data</button>
+                    <button onclick="resetForm()" class="btn-secondary">Hapus Form</button>
                 </div>
             </div>
 
             <div class="bg-white border border-[#c3c6d1] rounded-xl shadow-sm overflow-hidden">
                 <div class="bg-gray-50 px-6 py-3 border-b border-[#c3c6d1] flex justify-between items-center">
                     <h2 class="text-sm font-bold text-[#001e40]">TABEL DATA PENDAFTAR</h2>
-                    <button onclick="hapusTerpilih()" class="text-[10px] text-red-600 bg-red-50 px-3 py-1 rounded font-bold uppercase hover:bg-red-600 hover:text-white transition-all">Hapus Terpilih</button>
+                    <button onclick="hapusTerpilih()" class="btn-delete-selected">Hapus Terpilih</button>
                 </div>
                 <div class="overflow-x-auto">
                     <table class="w-full text-left text-[11px]" id="tabelPendaftar">
                         <thead class="bg-gray-100 border-b border-[#c3c6d1] text-gray-600 font-bold uppercase tracking-wider">
                             <tr>
-                                <th class="p-3 border-r text-center"><input type="checkbox" id="selectAll" onclick="toggleSelectAll()"></th>
-                                <th class="p-3 border-r text-center">AKSI</th>
+                                <th class="p-3 border-r text-center w-10"><input type="checkbox" id="selectAll" onclick="toggleSelectAll()"></th>
+                                <th class="p-3 border-r text-center w-24">AKSI</th>
                                 <th class="p-3 border-r">KODE</th>
                                 <th class="p-3 border-r">NAMA</th>
                                 <th class="p-3 border-r">LOKASI TES</th>
@@ -142,16 +148,16 @@
                 
                 <div class="p-6 bg-gray-50 border-t flex flex-col gap-2 items-end">
                     <div class="flex gap-10">
-                        <div class="text-[11px] font-bold text-gray-500 uppercase">Jumlah Pendaftar</div>
-                        <div id="statTotal" class="text-[11px] font-bold text-[#003366]">: 0</div>
+                        <div class="stat-label">Jumlah Pendaftar</div>
+                        <div id="statTotal" class="stat-value font-bold text-[#003366]">: 0</div>
                     </div>
                     <div class="flex gap-10">
-                        <div class="text-[11px] font-bold text-gray-500 uppercase">Jumlah Peserta Lulus</div>
-                        <div id="statLulus" class="text-[11px] font-bold text-green-600">: 0</div>
+                        <div class="stat-label">Peserta Lulus</div>
+                        <div id="statLulus" class="stat-value font-bold text-green-600">: 0</div>
                     </div>
                     <div class="flex gap-10">
-                        <div class="text-[11px] font-bold text-gray-500 uppercase">Jumlah Peserta Tidak Lulus</div>
-                        <div id="statGagal" class="text-[11px] font-bold text-red-600">: 0</div>
+                        <div class="stat-label">Peserta Tidak Lulus</div>
+                        <div id="statGagal" class="stat-value font-bold text-red-600">: 0</div>
                     </div>
                 </div>
             </div>
