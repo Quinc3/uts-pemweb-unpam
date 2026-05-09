@@ -9,8 +9,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <style>
         body { font-family: 'Inter', sans-serif; }
-        /* Style Sidebar Kuning Sesuai Screenshot */
-        .btn-sidebar-active {
+        .nav-active-yellow {
             display: flex;
             align-items: center;
             gap: 12px;
@@ -21,7 +20,6 @@
             height: 48px;
             cursor: pointer;
             box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            border: none;
         }
     </style>
 </head>
@@ -37,7 +35,7 @@
         </div>
         
         <nav class="flex-1 px-4 mt-2">
-            <div class="btn-sidebar-active">
+            <div class="nav-active-yellow">
                 <span class="material-symbols-outlined text-xl">assignment_ind</span>
                 <span class="text-sm font-bold uppercase">Pendaftaran</span>
             </div>
@@ -60,7 +58,7 @@
                 </div>
                 <div class="flex items-center gap-2">
                     <span class="text-[9px] text-gray-400 font-bold uppercase">Lokasi Tes:</span>
-                    <div id="autoLocation" class="text-[10px] font-bold px-3 py-1 bg-gray-200 text-gray-500 rounded-full uppercase">MENUNGGU KODE...</div>
+                    <div id="autoLocation" class="text-[10px] font-bold px-3 py-1 bg-gray-200 text-gray-500 rounded-full uppercase transition-all duration-300">MENUNGGU KODE...</div>
                 </div>
             </div>
 
@@ -73,11 +71,11 @@
                     <div class="space-y-3">
                         <div>
                             <label class="text-[10px] font-bold text-gray-500 uppercase block mb-1">Kuota Input Data</label>
-                            <input type="number" id="jmlData" class="w-full border p-2 rounded text-sm outline-none focus:border-[#003366]" placeholder="Limit data">
+                            <input type="number" id="jmlData" class="w-full border p-2 rounded text-sm outline-none" placeholder="Limit pendaftar">
                         </div>
                         <div>
                             <label class="text-[10px] font-bold text-gray-500 uppercase block mb-1">Kode Pendaftaran</label>
-                            <input type="text" id="kode" oninput="updateLocationHint()" class="w-full border p-2 rounded text-sm font-mono font-bold uppercase text-blue-800" placeholder="A2-101-9">
+                            <input type="text" id="kode" oninput="updateLocationHint()" class="w-full border p-2 rounded text-sm font-mono font-bold uppercase text-blue-800" placeholder="Contoh: A1-101-9">
                         </div>
                         <div>
                             <label class="text-[10px] font-bold text-gray-500 uppercase block mb-1">Nama Pendaftar</label>
@@ -85,8 +83,8 @@
                         </div>
                         <div class="grid grid-cols-2 gap-2">
                             <div>
-                                <label class="text-[10px] font-bold text-gray-500 uppercase block mb-1">Tgl Daftar</label>
-                                <input type="text" id="tglDaftar" class="w-full border p-2 rounded text-sm bg-gray-50 text-gray-400 font-bold" readonly>
+                                <label class="text-[10px] font-bold text-gray-500 uppercase block mb-1">Tgl Daftar (System)</label>
+                                <input type="text" id="tglDaftar" class="w-full border p-2 rounded text-sm bg-gray-100 text-gray-400 font-bold" readonly>
                             </div>
                             <div>
                                 <label class="text-[10px] font-bold text-gray-500 uppercase block mb-1">Tgl Lahir</label>
@@ -103,14 +101,14 @@
                         <div class="grid grid-cols-2 gap-2">
                             <div>
                                 <label class="text-[10px] font-bold text-gray-500 uppercase block mb-1">Jenis Kelamin</label>
-                                <select id="jk" class="w-full border p-2 rounded text-sm">
+                                <select id="jk" class="w-full border p-2 rounded text-sm outline-none">
                                     <option value="Laki-laki">Laki-laki</option>
                                     <option value="Perempuan">Perempuan</option>
                                 </select>
                             </div>
                             <div>
                                 <label class="text-[10px] font-bold text-gray-500 uppercase block mb-1">Pekerjaan Ortu</label>
-                                <select id="ortu" class="w-full border p-2 rounded text-sm">
+                                <select id="ortu" class="w-full border p-2 rounded text-sm outline-none">
                                     <option value="PNS">PNS</option>
                                     <option value="Swasta">Swasta</option>
                                     <option value="Wiraswasta">Wiraswasta</option>
@@ -120,7 +118,7 @@
                             </div>
                         </div>
                         <div class="pt-2">
-                            <label class="text-[10px] font-bold text-blue-800 uppercase border-b border-blue-50 block mb-2">Nilai Tes Seleksi</label>
+                            <label class="text-[10px] font-bold text-blue-800 uppercase border-b mb-2">Nilai Tes</label>
                             <div class="grid grid-cols-3 gap-2">
                                 <input type="number" id="mat" class="border p-2 rounded text-center text-sm" placeholder="MAT">
                                 <input type="number" id="ing" class="border p-2 rounded text-center text-sm" placeholder="ING">
@@ -130,7 +128,7 @@
                     </div>
                 </div>
 
-                <div class="px-6 py-4 bg-gray-50 border-t border-[#c3c6d1] flex gap-2">
+                <div class="px-6 py-4 bg-gray-50 border-t flex gap-2">
                     <button onclick="simpanData()" id="btnSimpan" class="bg-[#003366] text-white px-8 py-2 rounded font-bold uppercase text-[10px] flex items-center gap-2">
                         <span class="material-symbols-outlined text-sm">save</span>
                         <span id="textBtn">Simpan Data</span>
@@ -140,13 +138,13 @@
             </div>
 
             <div class="bg-white border border-[#c3c6d1] rounded-xl shadow-sm overflow-hidden">
-                <div class="bg-gray-50 px-6 py-3 border-b border-[#c3c6d1] flex justify-between items-center">
+                <div class="bg-gray-50 px-6 py-3 border-b flex justify-between items-center">
                     <h2 class="text-xs font-bold text-[#001e40] uppercase">Database Pendaftar</h2>
                     <button onclick="hapusTerpilih()" class="text-[9px] text-red-600 bg-red-50 px-3 py-1.5 rounded font-bold uppercase hover:bg-red-600 hover:text-white transition-all">Hapus Terpilih</button>
                 </div>
                 <div class="overflow-x-auto">
                     <table class="w-full text-left text-[11px]" id="tabelPendaftar">
-                        <thead class="bg-gray-100 border-b border-[#c3c6d1] text-gray-500 font-bold uppercase tracking-wider">
+                        <thead class="bg-gray-100 border-b text-gray-500 font-bold uppercase tracking-wider">
                             <tr>
                                 <th class="p-3 border-r text-center w-10"><input type="checkbox" id="selectAll" onclick="toggleSelectAll()"></th>
                                 <th class="p-3 border-r text-center w-20">AKSI</th>
