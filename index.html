@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html class="light" lang="id">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Pendaftaran Mahasiswa - Universitas Pamulang</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#001e40",
+                        "secondary": "#735c00",
+                        "primary-container": "#003366",
+                        "surface": "#f9f9fc",
+                        "surface-container-lowest": "#ffffff",
+                        "outline-variant": "#c3c6d1",
+                        "error": "#ba1a1a",
+                        "error-container": "#ffdad6",
+                        "secondary-container": "#fed65b",
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f9f9fc;
+        }
+
+        .in-repair {
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+    </style>
+</head>
+
+<body class="flex min-h-screen">
+
+    <aside
+        class="h-screen w-64 fixed left-0 top-0 hidden lg:flex flex-col bg-white border-r border-outline-variant shadow-md z-40">
+        <div class="p-6 flex flex-col gap-2">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-10 h-10 bg-primary-container rounded flex items-center justify-center text-white">
+                    <span class="material-symbols-outlined">school</span>
+                </div>
+                <div>
+                    <h2 class="text-lg font-bold text-primary leading-tight">Portal UNPAM</h2>
+                    <p class="text-xs text-gray-500">Sistem Penerimaan Baru</p>
+                </div>
+            </div>
+            <nav class="flex flex-col gap-2">
+                <a class="nav-link flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-100 rounded" href="#"
+                    data-name="Dashboard">
+                    <span class="material-symbols-outlined">dashboard</span><span>Dashboard</span>
+                </a>
+                <a class="flex items-center gap-3 px-4 py-3 bg-secondary-container text-black rounded-lg font-bold"
+                    href="#">
+                    <span class="material-symbols-outlined">assignment_ind</span><span>Form Pendaftaran</span>
+                </a>
+                <a class="nav-link flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-100 rounded" href="#"
+                    data-name="Status Seleksi">
+                    <span class="material-symbols-outlined">analytics</span><span>Status Seleksi</span>
+                </a>
+            </nav>
+        </div>
+    </aside>
+
+    <div class="flex-1 flex flex-col lg:ml-64">
+        <header class="bg-white border-b border-outline-variant h-16 flex items-center px-8 sticky top-0 z-50">
+            <h1 class="text-xl font-bold text-primary">Universitas Pamulang</h1>
+        </header>
+
+        <main class="p-8">
+            <div class="max-w-5xl mx-auto">
+                <div class="mb-8">
+                    <h2 class="text-2xl font-bold text-primary">Formulir Pendaftaran Mahasiswa Baru</h2>
+                    <p class="text-gray-600">Lengkapi data untuk UTS Pemrograman Web II[cite: 7].</p>
+                </div>
+
+                <div class="bg-white border border-outline-variant rounded-xl p-8 shadow-sm mb-8">
+                    <form id="regForm" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Nama Pendaftar [cite: 21]</label>
+                                <input type="text" id="nama" class="w-full border border-gray-300 rounded-lg p-2.5"
+                                    required>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Kode Pendaftaran (Contoh: A2-101)
+                                    [cite: 33, 40]</label>
+                                <input type="text" id="kode" class="w-full border border-gray-300 rounded-lg p-2.5"
+                                    required>
+                            </div>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="grid grid-cols-3 gap-2">
+                                <div>
+                                    <label class="block text-xs text-gray-500">MTK [cite: 27]</label>
+                                    <input type="number" id="mtk" class="w-full border border-gray-300 rounded-lg p-2"
+                                        min="0" max="100">
+                                </div>
+                                <div>
+                                    <label class="block text-xs text-gray-500">B.Inggris [cite: 28]</label>
+                                    <input type="number" id="inggris"
+                                        class="w-full border border-gray-300 rounded-lg p-2" min="0" max="100">
+                                </div>
+                                <div>
+                                    <label class="block text-xs text-gray-500">Umum [cite: 29]</label>
+                                    <input type="number" id="umum" class="w-full border border-gray-300 rounded-lg p-2"
+                                        min="0" max="100">
+                                </div>
+                            </div>
+                            <button type="button" id="btnSimpan"
+                                class="w-full bg-primary text-white py-3 rounded-lg font-bold hover:bg-opacity-90 transition-all">
+                                Simpan Data [cite: 30]
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="bg-white border border-outline-variant rounded-xl overflow-hidden shadow-sm">
+                    <table class="w-full text-left">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="p-4 text-sm font-bold">Nama [cite: 32]</th>
+                                <th class="p-4 text-sm font-bold">Kode [cite: 32]</th>
+                                <th class="p-4 text-sm font-bold">Lokasi [cite: 32]</th>
+                                <th class="p-4 text-sm font-bold">Rata-rata [cite: 32]</th>
+                                <th class="p-4 text-sm font-bold">Keterangan [cite: 32]</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Logika Menu "Dalam Perbaikan"
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                alert(`Maaf, menu "${link.dataset.name}" sedang dalam tahap pengerjaan.`);
+            });
+        });
+
+        // Logika Form & Perhitungan
+        const btnSimpan = document.getElementById('btnSimpan');
+        const tableBody = document.getElementById('tableBody');
+
+        btnSimpan.addEventListener('click', () => {
+            const nama = document.getElementById('nama').value;
+            const kode = document.getElementById('kode').value.toUpperCase();
+            const m = parseFloat(document.getElementById('mtk').value) || 0;
+            const i = parseFloat(document.getElementById('inggris').value) || 0;
+            const u = parseFloat(document.getElementById('umum').value) || 0;
+
+            if (!nama || !kode) return alert("Nama dan Kode wajib diisi!");
+
+            // Logika Tempat Tes (A=Gedung A, B=Gedung B, V=Viktor)
+            let lokasi = "Tidak Diketahui";
+            if (kode.startsWith('A')) lokasi = "Gedung A";
+            else if (kode.startsWith('B')) lokasi = "Gedung B";
+            else if (kode.startsWith('V')) lokasi = "Viktor";
+
+            // Logika Kelulusan [cite: 46]
+            const rata = (m + i + u) / 3;
+            let ket = "Tidak Lulus";
+            let color = "bg-red-100 text-red-700";
+
+            if (rata >= 70) {
+                ket = "Lulus";
+                color = "bg-green-100 text-green-700";
+            } else if (rata >= 60) {
+                ket = "Cadangan";
+                color = "bg-yellow-100 text-yellow-700";
+            }
+
+            // Append ke Tabel
+            const row = `
+                <tr class="border-t border-gray-100">
+                    <td class="p-4 font-medium">${nama}</td>
+                    <td class="p-4 text-gray-600">${kode}</td>
+                    <td class="p-4">${lokasi}</td>
+                    <td class="p-4 font-bold">${rata.toFixed(1)}</td>
+                    <td class="p-4">
+                        <span class="px-3 py-1 ${color} rounded-full text-xs font-bold">${ket}</span>
+                    </td>
+                </tr>
+            `;
+            tableBody.insertAdjacentHTML('afterbegin', row);
+            document.getElementById('regForm').reset();
+        });
+    </script>
+</body>
+
+</html>
