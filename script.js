@@ -1,5 +1,7 @@
+/* script.js */
+
 /**
- * FUNGSI OTOMATISASI LOKASI TES
+ * OTOMATISASI LOKASI TES
  */
 function updateLocationHint() {
     const kode = document.getElementById('kode').value.toUpperCase();
@@ -24,14 +26,14 @@ function updateLocationHint() {
 }
 
 /**
- * FUNGSI SIMPAN DATA
+ * SIMPAN DATA & VALIDASI KUOTA
  */
 function simpanData() {
     const limitInput = document.getElementById('jmlData').value;
     const limit = parseInt(limitInput) || 0;
     let data = JSON.parse(localStorage.getItem('unpam_uts')) || [];
 
-    // Cek Kuota
+    // Validasi Kuota
     if (limit > 0 && data.length >= limit) {
         return alert(`Gagal Simpan! Kuota sudah penuh (${limit}).`);
     }
@@ -41,18 +43,16 @@ function simpanData() {
 
     if (!nama || !kode) return alert("Mohon lengkapi Nama dan Kode Pendaftaran!");
 
-    // Logika Lokasi Tes
+    // Logika Lokasi Tes Otomatis
     let lokasi = "VIKTOR";
     const prefix = kode.charAt(0);
     if (prefix === 'A') lokasi = "GEDUNG A";
     else if (prefix === 'B') lokasi = "GEDUNG B";
 
-    // Nilai Tes
+    // Nilai & Perhitungan
     const mat = parseFloat(document.getElementById('mat').value) || 0;
     const ing = parseFloat(document.getElementById('ing').value) || 0;
     const umum = parseFloat(document.getElementById('umum').value) || 0;
-
-    // Perhitungan Rata-rata
     const rataRaw = (mat + ing + umum) / 3;
     const rata = rataRaw.toFixed(1);
 
@@ -85,7 +85,7 @@ function simpanData() {
 }
 
 /**
- * FUNGSI TAMPILKAN TABEL
+ * RENDER TABEL & STATISTIK
  */
 function renderTable() {
     const data = JSON.parse(localStorage.getItem('unpam_uts')) || [];
@@ -97,7 +97,7 @@ function renderTable() {
             <tr class="hover:bg-blue-50 transition-colors border-b">
                 <td class="p-3 border-r text-center"><input type="checkbox" class="rowCheckbox" value="${p.id}"></td>
                 <td class="p-3 border-r text-center">
-                    <button onclick="hapusSatuData(${p.id})" class="text-red-500 hover:text-red-700 font-bold">X</button>
+                    <button onclick="hapusSatu(${p.id})" class="text-red-500 font-bold hover:scale-125 transition-transform">X</button>
                 </td>
                 <td class="p-3 border-r font-mono text-blue-700 font-bold">${p.kode}</td>
                 <td class="p-3 border-r font-bold">${p.nama}</td>
@@ -122,50 +122,39 @@ function renderTable() {
 }
 
 /**
- * FUNGSI HAPUS SATU DATA
+ * FITUR HAPUS SATU & MASSAL
  */
-function hapusSatuData(id) {
+function hapusSatu(id) {
     if (!confirm("Hapus data pendaftar ini?")) return;
     let data = JSON.parse(localStorage.getItem('unpam_uts')) || [];
-    const filteredData = data.filter(p => p.id !== id);
-    localStorage.setItem('unpam_uts', JSON.stringify(filteredData));
+    localStorage.setItem('unpam_uts', JSON.stringify(data.filter(p => p.id !== id)));
     renderTable();
 }
 
-/**
- * FUNGSI SELECT ALL CHECKBOX
- */
 function toggleSelectAll() {
     const isChecked = document.getElementById('selectAll').checked;
-    const checkboxes = document.querySelectorAll('.rowCheckbox');
-    checkboxes.forEach(cb => cb.checked = isChecked);
+    document.querySelectorAll('.rowCheckbox').forEach(cb => cb.checked = isChecked);
 }
 
-/**
- * FUNGSI HAPUS DATA TERPILIH (CHECKBOX)
- */
 function hapusTerpilih() {
-    const selectedCheckboxes = document.querySelectorAll('.rowCheckbox:checked');
-    const selectedIds = Array.from(selectedCheckboxes).map(cb => parseInt(cb.value));
-
-    if (selectedIds.length === 0) return alert("Pilih minimal satu data untuk dihapus!");
-    if (!confirm(`Hapus ${selectedIds.length} data yang dipilih?`)) return;
+    const selected = Array.from(document.querySelectorAll('.rowCheckbox:checked')).map(cb => parseInt(cb.value));
+    if (selected.length === 0) return alert("Pilih minimal satu data!");
+    if (!confirm(`Hapus ${selected.length} data?`)) return;
 
     let data = JSON.parse(localStorage.getItem('unpam_uts')) || [];
-    const filteredData = data.filter(p => !selectedIds.includes(p.id));
-    
-    localStorage.setItem('unpam_uts', JSON.stringify(filteredData));
+    localStorage.setItem('unpam_uts', JSON.stringify(data.filter(p => !selected.includes(p.id))));
     document.getElementById('selectAll').checked = false;
     renderTable();
 }
 
 /**
- * FUNGSI RESET FORM
+ * RESET FORM
  */
 function resetForm() {
-    document.querySelectorAll('input').forEach(i => i.value = '');
+    document.querySelectorAll('input').forEach(i => {
+        if(i.id !== 'jmlData') i.value = '';
+    });
     updateLocationHint();
 }
 
-// Load data saat pertama kali buka halaman
 window.onload = renderTable;

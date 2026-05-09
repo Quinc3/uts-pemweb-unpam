@@ -9,9 +9,9 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <link rel="stylesheet" href="style.css">
 </head>
-<body class="flex min-h-screen">
+<body class="flex flex-col lg:flex-row min-h-screen">
 
-    <aside class="w-64 bg-white border-r border-[#c3c6d1] hidden lg:flex flex-col fixed h-full shadow-md z-40">
+    <aside class="w-full lg:w-64 bg-white border-b lg:border-r border-[#c3c6d1] flex lg:flex-col lg:fixed h-auto lg:h-full shadow-md z-40">
         <div class="p-6 flex items-center gap-3">
             <div class="bg-[#003366] w-10 h-10 rounded flex items-center justify-center text-white font-bold">U</div>
             <div>
@@ -19,20 +19,20 @@
                 <p class="text-[9px] text-gray-500 uppercase">Universitas Pamulang</p>
             </div>
         </div>
-        <nav class="flex-1 px-4 mt-4">
-            <div class="flex items-center gap-3 px-4 py-3 bg-[#fed65b] text-[#745c00] rounded-lg shadow-sm cursor-pointer">
+        <nav class="hidden lg:flex flex-1 px-4 mt-4">
+            <div class="flex items-center gap-3 px-4 py-3 bg-[#fed65b] text-[#745c00] rounded-lg shadow-sm w-full cursor-pointer">
                 <span class="material-symbols-outlined">assignment_ind</span>
                 <span class="text-sm font-semibold">Pendaftaran</span>
             </div>
         </nav>
-        <div class="p-6 border-t border-gray-100">
+        <div class="hidden lg:block p-6 border-t border-gray-100">
             <p class="text-[10px] text-gray-400 uppercase font-bold">Developed By:</p>
             <p class="text-sm font-bold text-[#003366]">Fariz Afdilah Muhamad</p>
-            <p class="text-xs text-gray-500 italic">NIM: 221011450661</p>
+            <p class="text-[10px] text-gray-500 italic font-semibold">NIM: 221011450661</p>
         </div>
     </aside>
 
-    <main class="flex-1 lg:ml-64 p-8 pb-20">
+    <main class="flex-1 w-full lg:ml-64 p-4 lg:p-8 pb-20">
         <div class="max-w-[1200px] mx-auto">
 
             <div class="bg-white border border-[#c3c6d1] rounded-xl shadow-sm mb-8">
@@ -46,12 +46,12 @@
                 <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4">
                     <div class="space-y-3">
                         <div>
-                            <label class="form-label">Jumlah Input Data</label>
-                            <input type="number" id="jmlData" class="input-field">
+                            <label class="form-label">Jumlah Input Data (Kuota)</label>
+                            <input type="number" id="jmlData" class="input-field" placeholder="Kosongkan jika tidak ada limit">
                         </div>
                         <div>
                             <label class="form-label">Kode Pendaftaran (A/B/V)</label>
-                            <input type="text" id="kode" oninput="updateLocationHint()" placeholder="Contoh: A2-101-9" class="input-field font-mono font-bold text-blue-800 uppercase">
+                            <input type="text" id="kode" oninput="updateLocationHint()" placeholder="A2-101-9" class="input-field font-mono font-bold text-blue-800 uppercase">
                         </div>
                         <div>
                             <label class="form-label">Nama Pendaftar</label>
@@ -111,9 +111,9 @@
                     </div>
                 </div>
 
-                <div class="px-6 py-4 bg-gray-50 border-t border-[#c3c6d1] flex gap-2 rounded-b-xl">
-                    <button onclick="simpanData()" class="btn-primary">Simpan</button>
-                    <button onclick="resetForm()" class="btn-secondary">Next</button>
+                <div class="px-6 py-4 bg-gray-50 border-t border-[#c3c6d1] flex flex-col md:flex-row gap-2 rounded-b-xl">
+                    <button onclick="simpanData()" class="btn-primary">Simpan Data</button>
+                    <button onclick="resetForm()" class="btn-secondary">Hapus Form (Next)</button>
                 </div>
             </div>
 
@@ -130,8 +130,8 @@
                                 <th class="p-3 border-r text-center">AKSI</th>
                                 <th class="p-3 border-r">KODE</th>
                                 <th class="p-3 border-r">NAMA</th>
-                                <th class="p-3 border-r">TEMPAT LAHIR</th>
-                                <th class="p-3 border-r">JENIS KELAMIN</th>
+                                <th class="p-3 border-r">T. LAHIR</th>
+                                <th class="p-3 border-r">JK</th>
                                 <th class="p-3 border-r">TGL LAHIR</th>
                                 <th class="p-3 border-r">PEKERJAAN</th>
                                 <th class="p-3 border-r">LOKASI TES</th>
