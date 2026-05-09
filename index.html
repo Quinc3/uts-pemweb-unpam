@@ -40,6 +40,137 @@
             <div class="bg-white border border-[#c3c6d1] rounded-xl shadow-sm mb-8">
                 <div class="bg-gray-50 px-6 py-3 border-b border-[#c3c6d1] rounded-t-xl flex justify-between items-center">
                     <h2 class="text-sm font-bold text-[#001e40]">INPUT PENDAFTARAN</h2>
+                    <div id="autoLocation" class="location-badge tracking-widest">MENUNGGU KODE...</div>
+                </div>
+                
+                <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4">
+                    <div class="space-y-3">
+                        <div>
+                            <label class="form-label">Jumlah Input Data (Kuota)</label>
+                            <input type="number" id="jmlData" class="input-field" placeholder="Limit pendaftar">
+                        </div>
+                        <div>
+                            <label class="form-label">Kode Pendaftaran (A/B/V)</label>
+                            <input type="text" id="kode" oninput="updateLocationHint()" placeholder="Contoh: A2-101-9" class="input-field font-mono uppercase font-bold text-blue-800">
+                        </div>
+                        <div>
+                            <label class="form-label">Nama Pendaftar</label>
+                            <input type="text" id="nama" class="input-field">
+                        </div>
+                        <div>
+                            <label class="form-label">Jenis Kelamin</label>
+                            <select id="jk" class="input-field">
+                                <option value="Laki-laki">Laki-laki</option>
+                                <option value="Perempuan">Perempuan</option>
+                            </select>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <label class="form-label">Tempat Lahir</label>
+                                <input type="text" id="tmpLahir" class="input-field">
+                            </div>
+                            <div>
+                                <label class="form-label">Tgl Daftar/Lahir</label>
+                                <input type="date" id="tglLahir" class="input-field">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-3">
+                        <div>
+                            <label class="form-label">Asal Sekolah</label>
+                            <input type="text" id="asal" class="input-field">
+                        </div>
+                        <div>
+                            <label class="form-label">Pekerjaan Ortu</label>
+                            <select id="ortu" class="input-field">
+                                <option value="PNS">PNS</option>
+                                <option value="Swasta">Swasta</option>
+                                <option value="Wiraswasta">Wiraswasta</option>
+                                <option value="Buruh">Buruh</option>
+                                <option value="Lainnya">Lainnya</option>
+                            </select>
+                        </div>
+                        <div class="pt-2">
+                            <label class="form-label text-blue-800 border-b mb-3 font-bold uppercase">Nilai Tes</label>
+                            <div class="grid grid-cols-3 gap-2">
+                                <div>
+                                    <label class="text-[9px] text-gray-400 uppercase">Matematika</label>
+                                    <input type="number" id="mat" class="input-field text-center">
+                                </div>
+                                <div>
+                                    <label class="text-[9px] text-gray-400 uppercase">B. Inggris</label>
+                                    <input type="number" id="ing" class="input-field text-center">
+                                </div>
+                                <div>
+                                    <label class="text-[9px] text-gray-400 uppercase">P. Umum</label>
+                                    <input type="number" id="umum" class="input-field text-center">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="px-6 py-4 bg-gray-50 border-t border-[#c3c6d1] flex flex-col md:flex-row gap-2 rounded-b-xl">
+                    <button onclick="simpanData()" id="btnSimpan" class="btn-primary">Simpan Data</button>
+                    <button onclick="resetForm()" class="btn-secondary">Hapus Form</button>
+                </div>
+            </div>
+
+            <div class="bg-white border border-[#c3c6d1] rounded-xl shadow-sm overflow-hidden">
+                <div class="bg-gray-50 px-6 py-3 border-b border-[#c3c6d1] flex justify-between items-center">
+                    <h2 class="text-sm font-bold text-[#001e40]">TABEL DATA PENDAFTAR</h2>
+                    <button onclick="hapusTerpilih()" class="btn-delete-selected">Hapus Terpilih</button>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-[11px]" id="tabelPendaftar">
+                        <thead class="bg-gray-100 border-b border-[#c3c6d1] text-gray-600 font-bold uppercase tracking-wider">
+                            <tr>
+                                <th class="p-3 border-r text-center"><input type="checkbox" id="selectAll" onclick="toggleSelectAll()"></th>
+                                <th class="p-3 border-r text-center">AKSI</th>
+                                <th class="p-3 border-r">KODE</th>
+                                <th class="p-3 border-r">NAMA</th>
+                                <th class="p-3 border-r">LOKASI TES</th>
+                                <th class="p-3 border-r text-blue-700">BULAN TES</th>
+                                <th class="p-3 border-r text-center">ING</th>
+                                <th class="p-3 border-r text-center">MAT</th>
+                                <th class="p-3 border-r text-center">UMUM</th>
+                                <th class="p-3 border-r text-center bg-gray-50">RATA</th>
+                                <th class="p-3 text-center">STATUS</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200">
+                            </tbody>
+                    </table>
+                </div>
+                
+                <div class="p-6 bg-gray-50 border-t flex flex-col gap-2">
+                    <div class="flex justify-end gap-10">
+                        <div class="stat-label">Jumlah Pendaftar</div>
+                        <div id="statTotal" class="stat-value text-[#003366] font-bold">: 0</div>
+                    </div>
+                    <div class="flex justify-end gap-10">
+                        <div class="stat-label">Jumlah Peserta Lulus</div>
+                        <div id="statLulus" class="stat-value text-green-600 font-bold">: 0</div>
+                    </div>
+                    <div class="flex justify-end gap-10">
+                        <div class="stat-label">Jumlah Peserta Tidak Lulus</div>
+                        <div id="statGagal" class="stat-value text-red-600 font-bold">: 0</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
+    <main class="flex-1 w-full lg:ml-64 p-4 lg:p-8 pb-20">
+        <div class="max-w-[1200px] mx-auto">
+
+            <div class="bg-white border border-[#c3c6d1] rounded-xl shadow-sm mb-8">
+                <div class="bg-gray-50 px-6 py-3 border-b border-[#c3c6d1] rounded-t-xl flex justify-between items-center">
+                    <h2 class="text-sm font-bold text-[#001e40]">INPUT PENDAFTARAN</h2>
                     <div id="autoLocation" class="location-badge">MENUNGGU KODE...</div>
                 </div>
                 
