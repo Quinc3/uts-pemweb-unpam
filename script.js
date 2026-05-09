@@ -124,21 +124,23 @@ function renderTable() {
             <tr class="hover:bg-blue-50/50 transition-colors border-b">
                 <td class="p-3 border-r text-center"><input type="checkbox" class="rowCheckbox" value="${p.id}"></td>
                 <td class="p-3 border-r text-center flex justify-center gap-3">
-                    <button onclick="persiapkanEdit(${p.id})" class="text-blue-600 hover:scale-125 transition-transform" title="Edit">
+                    <button onclick="persiapkanEdit(${p.id})" class="text-blue-600 hover:scale-125 transition-transform">
                         <span class="material-symbols-outlined text-[18px]">edit_square</span>
                     </button>
-                    <button onclick="hapusSatu(${p.id})" class="text-red-500 hover:scale-125 transition-transform" title="Hapus">
+                    <button onclick="hapusSatu(${p.id})" class="text-red-500 hover:scale-125 transition-transform">
                         <span class="material-symbols-outlined text-[18px]">delete_forever</span>
                     </button>
                 </td>
-                <td class="p-3 border-r font-mono text-blue-700 font-bold uppercase">${p.kode}</td>
-                <td class="p-3 border-r font-bold">${p.nama}</td>
-                <td class="p-3 border-r font-semibold">${p.lokasi}</td>
-                <td class="p-3 border-r font-bold text-blue-800">${p.bulanTes}</td>
-                <td class="p-3 border-r text-center">${p.ing}</td>
-                <td class="p-3 border-r text-center">${p.mat}</td>
-                <td class="p-3 border-r text-center">${p.umum}</td>
-                <td class="p-3 border-r text-center font-bold bg-gray-50">${p.rata}</td>
+                <td class="p-3 border-r font-mono text-blue-700 font-bold uppercase tracking-tighter">${p.kode}</td>
+                <td class="p-3 border-r font-bold text-gray-700">${p.nama}</td>
+                <td class="p-3 border-r font-semibold text-gray-500">${p.lokasi}</td>
+                
+                <td class="p-3 border-r font-bold text-gray-600">${p.bulanTes}</td>
+                
+                <td class="p-3 border-r text-center text-gray-600">${p.ing}</td>
+                <td class="p-3 border-r text-center text-gray-600">${p.mat}</td>
+                <td class="p-3 border-r text-center text-gray-600">${p.umum}</td>
+                <td class="p-3 border-r text-center font-bold bg-gray-50 text-[#003366]">${p.rata}</td>
                 <td class="p-3 text-center font-bold ${p.color}">${p.status.toUpperCase()}</td>
             </tr>`;
     });
