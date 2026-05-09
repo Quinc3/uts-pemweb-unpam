@@ -1,4 +1,4 @@
-/* style.css */
+/* style.css - FINAL VERSION */
 
 /* 1. RESET & DASAR */
 * {
@@ -35,23 +35,24 @@ aside {
 }
 
 /* 3. FORM STYLING */
-.form-label {
-    font-size: 12px;
+.form-label-custom {
+    font-size: 13px;
     font-weight: 700;
     color: #64748b;
     text-transform: uppercase;
-    margin-bottom: 4px;
+    margin-bottom: 6px;
     display: block;
 }
 
 .input-field {
     width: 100%;
     border: 1px solid #c3c6d1;
-    padding: 0.6rem;
-    border-radius: 0.5rem;
-    font-size: 0.875rem;
+    padding: 0.75rem;
+    border-radius: 0.6rem;
+    font-size: 15px;
     outline: none;
-    transition: all 0.2s ease;
+    transition: all 0.2s;
+    background: white;
 }
 
 .input-field:focus {
@@ -59,46 +60,82 @@ aside {
     box-shadow: 0 0 0 3px rgba(0, 51, 102, 0.1);
 }
 
+/* Styling Khusus Input Nilai (Besar & Center) */
+.input-field-nilai {
+    width: 100%;
+    height: 3.5rem; /* h-14 */
+    border: 1px solid #c3c6d1;
+    border-radius: 0.6rem;
+    font-size: 1.25rem;
+    text-align: center;
+    outline: none;
+    font-weight: bold;
+    background: white;
+    padding: 8px 0;
+}
+
+.input-field-nilai:focus {
+    border-color: #003366;
+    box-shadow: 0 0 0 3px rgba(0, 51, 102, 0.1);
+}
+
 /* 4. TOMBOL UTAMA */
 .btn-primary {
     background-color: #003366;
-    color: #ffffff;
-    padding: 0.75rem 2rem;
-    border-radius: 0.5rem;
+    color: white;
+    padding: 0.8rem 2rem;
+    border-radius: 0.6rem;
     font-weight: 700;
     text-transform: uppercase;
-    border: none;
     cursor: pointer;
+    border: none;
+    font-size: 13px;
 }
 
 .btn-secondary {
-    background-color: #ffffff;
+    background-color: white;
     border: 1px solid #c3c6d1;
-    color: #4b5563;
-    padding: 0.75rem 2rem;
-    border-radius: 0.5rem;
+    color: #64748b;
+    padding: 0.8rem 1.5rem;
+    border-radius: 0.6rem;
     font-weight: 700;
     text-transform: uppercase;
     cursor: pointer;
+    font-size: 13px;
 }
 
-/* 5. TABEL & ICON AKSI */
-.location-badge {
-    font-size: 10px;
-    font-weight: 800;
-    padding: 4px 10px;
-    border-radius: 6px;
-    background-color: #f1f5f9;
-    color: #64748b;
-    text-transform: uppercase;
+/* 5. TABEL STYLING */
+#tabelPendaftar {
+    font-size: 13.5px !important;
 }
 
-/* Style Khusus Tombol Icon di Tabel */
+#tabelPendaftar thead th {
+    font-size: 12px !important;
+    padding: 15px 10px !important;
+    color: #475569 !important;
+    border-right: 1px solid #e2e8f0;
+}
+
+#tabelPendaftar tbody td {
+    padding: 14px 10px !important;
+    border-right: 1px solid #f1f5f9;
+}
+
+/* Force warna Bulan Tes agar tidak Biru */
+#tabelPendaftar td:nth-child(9) {
+    color: #475569 !important;
+    font-weight: 700;
+}
+
+
 #tabelPendaftar button {
     display: flex;
     align-items: center;
     justify-content: center;
     transition: transform 0.2s;
+    background: transparent;
+    border: none;
+    cursor: pointer;
 }
 
 #tabelPendaftar button:hover {
@@ -134,7 +171,7 @@ aside {
     }
 
     table {
-        min-width: 1000px;
+        min-width: 1200px;
     }
 
     .btn-primary, .btn-secondary {

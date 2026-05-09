@@ -1,24 +1,25 @@
+/* script.js - VERSI FINAL KOMPLIT */
+
 let editId = null;
 const daftarBulan = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
 
-// Set Tanggal Daftar Otomatis dari System
+// 1. SET TANGGAL DAFTAR OTOMATIS (SISTEM)
 function setTodayDate() {
     const today = new Date();
     const dd = String(today.getDate()).padStart(2, '0');
-    const mm = String(today.getMonth() + 1).padStart(2, '0');
+    const mm = String(today.getMonth() + 1).padStart(2, '0'); 
     const yyyy = today.getFullYear();
     const field = document.getElementById('tglDaftar');
     if (field) field.value = `${dd}/${mm}/${yyyy}`;
 }
 
-// Auto Hint Lokasi Tes
+// 2. AUTO HINT LOKASI (A, B, V)
 function updateLocationHint() {
-    const kodeInput = document.getElementById('kode');
+    const input = document.getElementById('kodeGedung'); // Sesuaikan ID di HTML
     const hint = document.getElementById('autoLocation');
-    if (!kodeInput || !hint) return;
+    if (!input || !hint) return;
 
-    const kode = kodeInput.value.toUpperCase();
-    const charAwal = kode.charAt(0);
+    const charAwal = input.value.toUpperCase().charAt(0);
     const config = {
         'A': { text: "GEDUNG A", class: "bg-green-600 text-white" },
         'B': { text: "GEDUNG B", class: "bg-yellow-500 text-white" },
@@ -35,50 +36,44 @@ function updateLocationHint() {
     }
 }
 
-// Simpan & Update Data (Logika Anti-Duplikat + Kuota)
+// 3. VALIDASI NILAI REAL-TIME (CEGAH > 100)
+function validasiNilai(el) {
+    if (el.value > 100) el.value = 100;
+    if (el.value < 0) el.value = 0;
+}
+
+// 4. SIMPAN & UPDATE DATA
 function simpanData() {
     let data = JSON.parse(localStorage.getItem('unpam_uts')) || [];
-    const limitInput = document.getElementById('jmlData').value;
-    const limit = parseInt(limitInput) || 0;
-
+    const limit = parseInt(document.getElementById('jmlData').value) || 0;
+    
     const nama = document.getElementById('nama').value;
-    const gedungInput = document.getElementById('kode').value.toUpperCase(); // Ambil A/B/V
-
-    // --- 1. VALIDASI INPUT DASAR ---
-    if (!nama || !gedungInput) return alert("Nama dan Kode Gedung (A/B/V) wajib diisi!");
-
-    // --- 2. VALIDASI NILAI (0-100) ---
+    const gedungInput = document.getElementById('kodeGedung').value.toUpperCase();
     const mat = parseFloat(document.getElementById('mat').value) || 0;
     const ing = parseFloat(document.getElementById('ing').value) || 0;
     const umum = parseFloat(document.getElementById('umum').value) || 0;
 
-    if (mat < 0 || mat > 100 || ing < 0 || ing > 100 || umum < 0 || umum > 100) {
-        return alert("Gagal! Nilai tidak boleh kurang dari 0 atau lebih dari 100.");
-    }
+    // Validasi Input
+    if (!nama || !gedungInput) return alert("Nama dan Gedung (A/B/V) wajib diisi!");
+    if (mat > 100 || ing > 100 || umum > 100) return alert("Nilai tidak boleh lebih dari 100!");
 
-    // --- 3. GENERATE KODE OTOMATIS (A[Bulan]-[Tahun]-[Urutan]) ---
+    // Logika Kode Otomatis: [Gedung][Bulan]-[Digit Tahun]-[Urutan]
+    // Contoh: A5-6-1
     let kodeFinal = "";
     if (editId) {
-        // Jika mode edit, tetap pakai kode lama
-        const pLama = data.find(x => x.id === editId);
-        kodeFinal = pLama.kode;
+        kodeFinal = data.find(x => x.id === editId).kode;
     } else {
         const now = new Date();
-        const bulan = now.getMonth() + 1; // Januari = 1
-        const tahunDigit = String(now.getFullYear()).slice(-1); // 2026 -> 6
-        const gedung = gedungInput.charAt(0); // Ambil huruf depan saja (A/B/V)
-
-        // Hitung urutan berdasarkan data yang sudah ada
+        const bulan = now.getMonth() + 1;
+        const tahun = String(now.getFullYear()).slice(-1);
         const urutan = data.length + 1;
-
-        // Format Hasil: A5-6-1 (Gedung A, Bulan Mei, Tahun 2026, Urutan 1)
-        kodeFinal = `${gedung}${bulan}-${tahunDigit}-${urutan}`;
+        kodeFinal = `${gedungInput.charAt(0)}${bulan}-${tahun}-${urutan}`;
     }
 
-    // --- 4. VALIDASI KUOTA ---
-    if (!editId && limit > 0 && data.length >= limit) return alert("Kuota penuh!");
+    // Validasi Kuota
+    if (!editId && limit > 0 && data.length >= limit) return alert("Kuota pendaftaran penuh!");
 
-    // --- 5. LOGIKA PERHITUNGAN ---
+    // Perhitungan
     const rata = ((mat + ing + umum) / 3).toFixed(1);
     let status = "Tidak Lulus", color = "text-red-600";
     if (rata >= 70) { status = "Lulus"; color = "text-green-600"; }
@@ -87,14 +82,14 @@ function simpanData() {
     const rowData = {
         id: editId || Date.now(),
         nama,
-        kode: kodeFinal, // Simpan kode otomatis
-        lokasi: (kodeFinal.startsWith('A')) ? "GEDUNG A" : (kodeFinal.startsWith('B')) ? "GEDUNG B" : "VIKTOR",
-        bulanTes: daftarBulan[new Date().getMonth()],
-        status, color, rata, mat, ing, umum,
-        tglDaftar: document.getElementById('tglDaftar').value,
-        tglLahir: document.getElementById('tglLahir').value,
+        kode: kodeFinal,
+        tmpLahir: document.getElementById('tmpLahir').value,
         jk: document.getElementById('jk').value,
         ortu: document.getElementById('ortu').value,
+        lokasi: (kodeFinal.startsWith('A')) ? "GEDUNG A" : (kodeFinal.startsWith('B')) ? "GEDUNG B" : "VIKTOR",
+        bulanTes: daftarBulan[new Date().getMonth()],
+        mat, ing, umum, rata, status, color,
+        tglDaftar: document.getElementById('tglDaftar').value,
         asal: document.getElementById('asal').value
     };
 
@@ -109,10 +104,10 @@ function simpanData() {
     localStorage.setItem('unpam_uts', JSON.stringify(data));
     renderTable();
     resetForm();
-    alert(`Sukses! Kode Pendaftaran: ${kodeFinal}`);
+    alert(`Berhasil! Kode Anda: ${kodeFinal}`);
 }
 
-// Render Tabel
+// 5. RENDER TABEL (12 KOLOM)
 function renderTable() {
     const data = JSON.parse(localStorage.getItem('unpam_uts')) || [];
     const tbody = document.querySelector('#tabelPendaftar tbody');
@@ -131,36 +126,36 @@ function renderTable() {
                         <span class="material-symbols-outlined text-[18px]">delete_forever</span>
                     </button>
                 </td>
-                <td class="p-3 border-r font-mono text-blue-700 font-bold uppercase tracking-tighter">${p.kode}</td>
+                <td class="p-3 border-r font-mono font-bold text-blue-700 uppercase">${p.kode}</td>
                 <td class="p-3 border-r font-bold text-gray-700">${p.nama}</td>
+                <td class="p-3 border-r">${p.tmpLahir}</td>
+                <td class="p-3 border-r">${p.jk}</td>
+                <td class="p-3 border-r">${p.ortu}</td>
                 <td class="p-3 border-r font-semibold text-gray-500">${p.lokasi}</td>
-                
-                <td class="p-3 border-r font-bold text-gray-600">${p.bulanTes}</td>
-                
-                <td class="p-3 border-r text-center text-gray-600">${p.ing}</td>
-                <td class="p-3 border-r text-center text-gray-600">${p.mat}</td>
-                <td class="p-3 border-r text-center text-gray-600">${p.umum}</td>
-                <td class="p-3 border-r text-center font-bold bg-gray-50 text-[#003366]">${p.rata}</td>
+                <td class="p-3 border-r font-bold text-gray-500">${p.bulanTes}</td>
+                <td class="p-3 border-r text-center">${p.mat}</td>
+                <td class="p-3 border-r text-center">${p.ing}</td>
+                <td class="p-3 border-r text-center">${p.umum}</td>
+                <td class="p-3 border-r text-center font-black bg-gray-50 text-[#003366]">${p.rata}</td>
                 <td class="p-3 text-center font-bold ${p.color}">${p.status.toUpperCase()}</td>
             </tr>`;
     });
 
-    // Update Statistik
     document.getElementById('statTotal').innerText = `: ${data.length}`;
     document.getElementById('statLulus').innerText = `: ${data.filter(x => x.status === 'Lulus').length}`;
     document.getElementById('statGagal').innerText = `: ${data.filter(x => x.status === 'Tidak Lulus').length}`;
 }
 
-// Persiapan Edit
+// 6. EDIT & DELETE FUNGSI
 function persiapkanEdit(id) {
     const data = JSON.parse(localStorage.getItem('unpam_uts')) || [];
     const p = data.find(x => x.id === id);
     if (p) {
         editId = p.id;
         document.getElementById('nama').value = p.nama;
-        document.getElementById('kode').value = p.kode;
+        document.getElementById('kodeGedung').value = p.kode.charAt(0);
+        document.getElementById('tmpLahir').value = p.tmpLahir;
         document.getElementById('jk').value = p.jk;
-        document.getElementById('tglLahir').value = p.tglLahir;
         document.getElementById('ortu').value = p.ortu;
         document.getElementById('asal').value = p.asal || '';
         document.getElementById('mat').value = p.mat;
@@ -172,9 +167,8 @@ function persiapkanEdit(id) {
     }
 }
 
-// Hapus
 function hapusSatu(id) {
-    if (!confirm("Konfirmasi: Hapus data pendaftar ini?")) return;
+    if (!confirm("Hapus data ini?")) return;
     let data = JSON.parse(localStorage.getItem('unpam_uts')) || [];
     localStorage.setItem('unpam_uts', JSON.stringify(data.filter(p => p.id !== id)));
     renderTable();
@@ -187,8 +181,8 @@ function toggleSelectAll() {
 
 function hapusTerpilih() {
     const selected = Array.from(document.querySelectorAll('.rowCheckbox:checked')).map(cb => parseInt(cb.value));
-    if (selected.length === 0) return alert("Pilih minimal satu data!");
-    if (!confirm(`Hapus ${selected.length} data terpilih?`)) return;
+    if (selected.length === 0) return alert("Pilih data!");
+    if (!confirm(`Hapus ${selected.length} data?`)) return;
 
     let data = JSON.parse(localStorage.getItem('unpam_uts')) || [];
     localStorage.setItem('unpam_uts', JSON.stringify(data.filter(p => !selected.includes(p.id))));
@@ -196,7 +190,6 @@ function hapusTerpilih() {
     renderTable();
 }
 
-// Reset Form
 function resetForm() {
     editId = null;
     document.getElementById('textBtn').innerText = "Simpan Data";
