@@ -117,7 +117,8 @@
                             </div>
                             <div>
                                 <label class="form-label-custom">Jumlah Kuota Data</label>
-                                <input type="number" id="jmlData" class="input-field" placeholder="Limit input">
+                                <input type="number" id="jmlData" oninput="if(this.value < 0) this.value = 0;"
+                                    class="input-field" placeholder="Limit input">
                             </div>
                         </div>
 
