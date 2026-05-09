@@ -5,7 +5,7 @@ const daftarBulan = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Ju
 function setTodayDate() {
     const today = new Date();
     const dd = String(today.getDate()).padStart(2, '0');
-    const mm = String(today.getMonth() + 1).padStart(2, '0'); 
+    const mm = String(today.getMonth() + 1).padStart(2, '0');
     const yyyy = today.getFullYear();
     const field = document.getElementById('tglDaftar');
     if (field) field.value = `${dd}/${mm}/${yyyy}`;
@@ -37,40 +37,60 @@ function updateLocationHint() {
 
 // Simpan & Update Data (Logika Anti-Duplikat + Kuota)
 function simpanData() {
+    let data = JSON.parse(localStorage.getItem('unpam_uts')) || [];
     const limitInput = document.getElementById('jmlData').value;
     const limit = parseInt(limitInput) || 0;
-    let data = JSON.parse(localStorage.getItem('unpam_uts')) || [];
 
     const nama = document.getElementById('nama').value;
-    const kode = document.getElementById('kode').value.toUpperCase();
+    const gedungInput = document.getElementById('kode').value.toUpperCase(); // Ambil A/B/V
 
-    if (!nama || !kode) return alert("Peringatan: Nama dan Kode tidak boleh kosong!");
+    // --- 1. VALIDASI INPUT DASAR ---
+    if (!nama || !gedungInput) return alert("Nama dan Kode Gedung (A/B/V) wajib diisi!");
 
-    // --- LOGIKA ANTI DUPLIKAT ---
-    const isDuplicate = data.some(p => p.kode === kode && p.id !== editId);
-    if (isDuplicate) return alert(`Error: Kode ${kode} sudah terdaftar di database!`);
-
-    // Validasi Kuota
-    if (!editId && limit > 0 && data.length >= limit) return alert(`Gagal: Kuota pendaftaran penuh (${limit}).`);
-
-    // Logika Lokasi & Bulan Tes
-    let lokasi = (kode.startsWith('A')) ? "GEDUNG A" : (kode.startsWith('B')) ? "GEDUNG B" : "VIKTOR";
-    let bulanTes = daftarBulan[new Date().getMonth()];
-
-    // Perhitungan Nilai
+    // --- 2. VALIDASI NILAI (0-100) ---
     const mat = parseFloat(document.getElementById('mat').value) || 0;
     const ing = parseFloat(document.getElementById('ing').value) || 0;
     const umum = parseFloat(document.getElementById('umum').value) || 0;
-    const rataRaw = (mat + ing + umum) / 3;
-    const rata = rataRaw.toFixed(1);
 
+    if (mat < 0 || mat > 100 || ing < 0 || ing > 100 || umum < 0 || umum > 100) {
+        return alert("Gagal! Nilai tidak boleh kurang dari 0 atau lebih dari 100.");
+    }
+
+    // --- 3. GENERATE KODE OTOMATIS (A[Bulan]-[Tahun]-[Urutan]) ---
+    let kodeFinal = "";
+    if (editId) {
+        // Jika mode edit, tetap pakai kode lama
+        const pLama = data.find(x => x.id === editId);
+        kodeFinal = pLama.kode;
+    } else {
+        const now = new Date();
+        const bulan = now.getMonth() + 1; // Januari = 1
+        const tahunDigit = String(now.getFullYear()).slice(-1); // 2026 -> 6
+        const gedung = gedungInput.charAt(0); // Ambil huruf depan saja (A/B/V)
+
+        // Hitung urutan berdasarkan data yang sudah ada
+        const urutan = data.length + 1;
+
+        // Format Hasil: A5-6-1 (Gedung A, Bulan Mei, Tahun 2026, Urutan 1)
+        kodeFinal = `${gedung}${bulan}-${tahunDigit}-${urutan}`;
+    }
+
+    // --- 4. VALIDASI KUOTA ---
+    if (!editId && limit > 0 && data.length >= limit) return alert("Kuota penuh!");
+
+    // --- 5. LOGIKA PERHITUNGAN ---
+    const rata = ((mat + ing + umum) / 3).toFixed(1);
     let status = "Tidak Lulus", color = "text-red-600";
-    if (rataRaw >= 70) { status = "Lulus"; color = "text-green-600"; }
-    else if (rataRaw >= 60) { status = "Cadangan"; color = "text-yellow-600"; }
+    if (rata >= 70) { status = "Lulus"; color = "text-green-600"; }
+    else if (rata >= 60) { status = "Cadangan"; color = "text-yellow-600"; }
 
     const rowData = {
         id: editId || Date.now(),
-        nama, kode, lokasi, bulanTes, status, color, rata, mat, ing, umum,
+        nama,
+        kode: kodeFinal, // Simpan kode otomatis
+        lokasi: (kodeFinal.startsWith('A')) ? "GEDUNG A" : (kodeFinal.startsWith('B')) ? "GEDUNG B" : "VIKTOR",
+        bulanTes: daftarBulan[new Date().getMonth()],
+        status, color, rata, mat, ing, umum,
         tglDaftar: document.getElementById('tglDaftar').value,
         tglLahir: document.getElementById('tglLahir').value,
         jk: document.getElementById('jk').value,
@@ -89,7 +109,7 @@ function simpanData() {
     localStorage.setItem('unpam_uts', JSON.stringify(data));
     renderTable();
     resetForm();
-    alert("Sukses: Data pendaftaran berhasil diproses!");
+    alert(`Sukses! Kode Pendaftaran: ${kodeFinal}`);
 }
 
 // Render Tabel
@@ -97,7 +117,7 @@ function renderTable() {
     const data = JSON.parse(localStorage.getItem('unpam_uts')) || [];
     const tbody = document.querySelector('#tabelPendaftar tbody');
     if (!tbody) return;
-    
+
     tbody.innerHTML = '';
     data.forEach(p => {
         tbody.innerHTML += `
@@ -179,10 +199,10 @@ function resetForm() {
     editId = null;
     document.getElementById('textBtn').innerText = "Simpan Data";
     document.querySelectorAll('input, select').forEach(i => {
-        if(i.id !== 'jmlData' && i.id !== 'tglDaftar') i.value = '';
+        if (i.id !== 'jmlData' && i.id !== 'tglDaftar') i.value = '';
     });
     updateLocationHint();
     setTodayDate();
 }
 
-window.onload = function() { renderTable(); setTodayDate(); };
+window.onload = function () { renderTable(); setTodayDate(); };

@@ -1,6 +1,6 @@
 /* style.css */
 
-/* Reset Dasar */
+/* 1. RESET & DASAR */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -9,32 +9,32 @@
 
 body {
     font-family: 'Inter', sans-serif;
-    background-color: #f8fafc;
+    background-color: #f1f5f9;
     color: #1e293b;
     overflow-x: hidden;
 }
 
-/* --- SIDEBAR STYLING --- */
+/* 2. SIDEBAR STYLING */
 aside {
     background-color: #ffffff;
     transition: all 0.3s ease;
 }
 
-/* Navigasi Item Kuning (Aktif) */
-.nav-item-active {
+/* Navigasi Item Kuning (Sesuai Gambar Portal) */
+.nav-active-yellow {
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 12px 16px;
-    background-color: #fed65b; /* Warna kuning khas portal */
-    color: #745c00;
-    border-radius: 12px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    height: 48px; /* Mengunci tinggi agar tidak melar */
+    padding: 0 16px;
+    background-color: #fed65b !important;
+    color: #745c00 !important;
+    border-radius: 8px;
+    height: 48px;
     cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
 
-/* --- FORM STYLING --- */
+/* 3. FORM STYLING */
 .form-label {
     font-size: 10px;
     font-weight: 700;
@@ -52,7 +52,6 @@ aside {
     font-size: 0.875rem;
     outline: none;
     transition: all 0.2s ease;
-    background-color: #ffffff;
 }
 
 .input-field:focus {
@@ -60,7 +59,7 @@ aside {
     box-shadow: 0 0 0 3px rgba(0, 51, 102, 0.1);
 }
 
-/* Tombol Aksi */
+/* 4. TOMBOL UTAMA */
 .btn-primary {
     background-color: #003366;
     color: #ffffff;
@@ -68,13 +67,8 @@ aside {
     border-radius: 0.5rem;
     font-weight: 700;
     text-transform: uppercase;
-    transition: background 0.2s;
     border: none;
     cursor: pointer;
-}
-
-.btn-primary:hover {
-    background-color: #001e40;
 }
 
 .btn-secondary {
@@ -88,11 +82,7 @@ aside {
     cursor: pointer;
 }
 
-.btn-secondary:hover {
-    background-color: #f1f5f9;
-}
-
-/* --- TABEL & BADGE STYLING --- */
+/* 5. TABEL & ICON AKSI */
 .location-badge {
     font-size: 10px;
     font-weight: 800;
@@ -103,42 +93,20 @@ aside {
     text-transform: uppercase;
 }
 
-.btn-delete-selected {
-    font-size: 10px;
-    color: #dc2626;
-    background: #fef2f2;
-    padding: 6px 12px;
-    border-radius: 6px;
-    font-weight: 700;
-    text-transform: uppercase;
-    border: 1px solid #fee2e2;
-    cursor: pointer;
+/* Style Khusus Tombol Icon di Tabel */
+#tabelPendaftar button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s;
 }
 
-.btn-delete-selected:hover {
-    background-color: #dc2626;
-    color: #ffffff;
+#tabelPendaftar button:hover {
+    transform: scale(1.2);
 }
 
-/* Footer Statistik */
-.stat-label {
-    font-size: 11px;
-    font-weight: 700;
-    color: #64748b;
-    text-transform: uppercase;
-    width: 200px;
-    text-align: right;
-}
-
-.stat-value {
-    font-size: 11px;
-    width: 50px;
-    text-align: left;
-}
-
-/* --- RESPONSIVE CONFIG (MOBILE) --- */
+/* 6. RESPONSIVE CONFIG */
 @media (max-width: 1024px) {
-    /* Sidebar berubah jadi bar atas */
     aside {
         width: 100% !important;
         height: auto !important;
@@ -158,20 +126,17 @@ aside {
         padding: 1rem !important;
     }
 
-    /* Tabel bisa di-scroll ke samping di HP */
     .overflow-x-auto {
         display: block;
         width: 100%;
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
-        border-radius: 0.5rem;
     }
 
     table {
-        min-width: 1000px; [span_2](start_span)/* Memaksa lebar agar kolom tidak berhimpitan[span_2](end_span) */
+        min-width: 1000px;
     }
 
-    /* Tombol jadi lebar penuh */
     .btn-primary, .btn-secondary {
         width: 100%;
         margin-bottom: 0.5rem;
