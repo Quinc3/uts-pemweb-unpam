@@ -156,19 +156,22 @@
                         <div class="grid grid-cols-3 gap-3">
                             <div>
                                 <label class="text-[10px] text-gray-400 font-bold text-center block mb-1">MAT</label>
-                                <input type="number" id="mat" min="0" max="100"
+                                <input type="number" id="mat"
+                                    oninput="if(this.value > 100) this.value = 100; if(this.value < 0) this.value = 0;"
                                     class="w-full h-12 border border-[#c3c6d1] rounded-lg text-lg text-center outline-none focus:border-[#003366] bg-white text-gray-700"
                                     placeholder="0">
                             </div>
                             <div>
                                 <label class="text-[10px] text-gray-400 font-bold text-center block mb-1">ING</label>
-                                <input type="number" id="ing" min="0" max="100"
+                                <input type="number" id="ing"
+                                    oninput="if(this.value > 100) this.value = 100; if(this.value < 0) this.value = 0;"
                                     class="w-full h-12 border border-[#c3c6d1] rounded-lg text-lg text-center outline-none focus:border-[#003366] bg-white text-gray-700"
                                     placeholder="0">
                             </div>
                             <div>
                                 <label class="text-[10px] text-gray-400 font-bold text-center block mb-1">UMUM</label>
-                                <input type="number" id="umum" min="0" max="100"
+                                <input type="number" id="umum"
+                                    oninput="if(this.value > 100) this.value = 100; if(this.value < 0) this.value = 0;"
                                     class="w-full h-12 border border-[#c3c6d1] rounded-lg text-lg text-center outline-none focus:border-[#003366] bg-white text-gray-700"
                                     placeholder="0">
                             </div>
