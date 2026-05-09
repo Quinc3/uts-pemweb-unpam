@@ -8,7 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #f9f9fc; }
+        body { font-family: 'Inter', sans-serif; background-color: #f4f7fa; }
     </style>
 </head>
 <body class="flex min-h-screen">
@@ -34,53 +34,95 @@
     </aside>
 
     <main class="flex-1 lg:ml-64 p-8">
-        <div class="max-w-5xl mx-auto">
-            <header class="mb-10">
+        <div class="max-w-6xl mx-auto">
+            <header class="mb-8 border-b pb-4">
                 <h2 class="text-2xl font-bold text-[#001e40]">Formulir Pendaftaran Mahasiswa Baru</h2>
-                <p class="text-gray-500 text-sm">Gunakan Kode A (Gedung A), B (Gedung B), atau V (Viktor)[cite: 36, 37].</p>
+                <div class="flex gap-4 mt-2">
+                    <span class="text-[10px] bg-blue-100 text-blue-700 px-2 py-1 rounded font-bold uppercase">A/B = Gedung A/B</span>
+                    <span class="text-[10px] bg-purple-100 text-purple-700 px-2 py-1 rounded font-bold uppercase">V = Viktor</span>
+                </div>
             </header>
 
-            <div class="grid lg:grid-cols-3 gap-8">
-                <div class="lg:col-span-1 bg-white border border-[#c3c6d1] rounded-xl p-6 shadow-sm h-fit">
+            <div class="grid lg:grid-cols-12 gap-8">
+                <div class="lg:col-span-4 bg-white border border-[#c3c6d1] rounded-xl p-6 shadow-sm h-fit">
+                    <h3 class="text-sm font-bold mb-4 text-gray-700 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-sm">edit_note</span> INPUT DATA
+                    </h3>
                     <div class="space-y-4">
                         <div>
                             <label class="text-[10px] font-bold text-gray-400 uppercase">Nama Pendaftar</label>
-                            <input type="text" id="nama" class="w-full border border-[#c3c6d1] p-2 rounded-lg text-sm outline-[#003366]">
+                            <input type="text" id="nama" class="w-full border border-[#c3c6d1] p-2 rounded-lg text-sm focus:ring-2 focus:ring-[#003366] outline-none">
                         </div>
                         <div>
                             <label class="text-[10px] font-bold text-gray-400 uppercase">Kode Pendaftaran</label>
-                            <input type="text" id="kode" placeholder="Contoh: A2-101-9" class="w-full border border-[#c3c6d1] p-2 rounded-lg text-sm outline-[#003366]">
+                            <input type="text" id="kode" placeholder="A2-101-9" class="w-full border border-[#c3c6d1] p-2 rounded-lg text-sm focus:ring-2 focus:ring-[#003366] outline-none">
                         </div>
-                        <div class="grid grid-cols-3 gap-2 pt-2">
-                            <input type="number" id="mat" placeholder="MAT" class="border border-[#c3c6d1] p-2 rounded-lg text-center text-sm">
-                            <input type="number" id="ing" placeholder="ING" class="border border-[#c3c6d1] p-2 rounded-lg text-center text-sm">
-                            <input type="number" id="umum" placeholder="UMUM" class="border border-[#c3c6d1] p-2 rounded-lg text-center text-sm">
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="text-[10px] font-bold text-gray-400 uppercase">Jenis Kelamin</label>
+                                <select id="jk" class="w-full border border-[#c3c6d1] p-2 rounded-lg text-sm outline-none">
+                                    <option value="Laki-laki">Laki-laki</option>
+                                    <option value="Perempuan">Perempuan</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="text-[10px] font-bold text-gray-400 uppercase">Pekerjaan Ortu</label>
+                                <select id="ortu" class="w-full border border-[#c3c6d1] p-2 rounded-lg text-sm outline-none">
+                                    <option value="PNS">PNS</option>
+                                    <option value="Swasta">Swasta</option>
+                                    <option value="Wiraswasta">Wiraswasta</option>
+                                    <option value="Lainnya">Lainnya</option>
+                                </select>
+                            </div>
                         </div>
-                        <button onclick="simpanData()" class="w-full bg-[#001e40] text-white font-bold py-3 rounded-lg mt-4 hover:bg-[#003366] transition-all shadow-md">
-                            SIMPAN DATA
-                        </button>
+                        <div class="pt-2 border-t">
+                            <label class="text-[10px] font-bold text-gray-400 uppercase block mb-2 text-center">Nilai Tes </label>
+                            <div class="grid grid-cols-3 gap-2">
+                                <input type="number" id="mat" placeholder="MAT" class="border border-[#c3c6d1] p-2 rounded-lg text-center text-sm outline-none focus:border-[#003366]">
+                                <input type="number" id="ing" placeholder="ING" class="border border-[#c3c6d1] p-2 rounded-lg text-center text-sm outline-none focus:border-[#003366]">
+                                <input type="number" id="umum" placeholder="UMUM" class="border border-[#c3c6d1] p-2 rounded-lg text-center text-sm outline-none focus:border-[#003366]">
+                            </div>
+                        </div>
+                        <div class="flex gap-2">
+                            <button onclick="simpanData()" class="flex-1 bg-[#001e40] text-white font-bold py-3 rounded-lg hover:bg-[#003366] transition-all shadow-md">SIMPAN</button>
+                            <button onclick="resetForm()" class="px-4 bg-gray-100 text-gray-600 font-bold py-3 rounded-lg hover:bg-gray-200 transition-all">NEXT</button>
+                        </div>
                     </div>
                 </div>
 
-                <div class="lg:col-span-2">
-                    <div class="bg-white border border-[#c3c6d1] rounded-xl shadow-sm overflow-hidden">
-                        <table class="w-full text-left text-sm" id="tabelPendaftar">
+                <div class="lg:col-span-8">
+                    <div class="bg-white border border-[#c3c6d1] rounded-xl shadow-sm overflow-x-auto">
+                        <table class="w-full text-left text-xs" id="tabelPendaftar">
                             <thead class="bg-[#f3f3f6] border-b text-[#001e40] font-bold">
                                 <tr>
                                     <th class="p-4">KODE</th>
                                     <th class="p-4">NAMA</th>
                                     <th class="p-4">LOKASI TES</th>
-                                    <th class="p-4 text-center">RATA-RATA</th>
+                                    <th class="p-4">PEKERJAAN</th>
+                                    <th class="p-4 text-center">MAT</th>
+                                    <th class="p-4 text-center">INGG</th>
+                                    <th class="p-4 text-center">UMUM</th>
+                                    <th class="p-4 text-center bg-gray-100">RATA</th>
                                     <th class="p-4 text-center">STATUS</th>
                                 </tr>
                             </thead>
-                            <tbody class="text-gray-700">
+                            <tbody class="text-gray-700 divide-y divide-gray-100">
                                 </tbody>
                         </table>
                         
-                        <div class="p-4 bg-[#f3f3f6] flex justify-between text-[11px] font-bold text-gray-500 uppercase border-t">
-                            <span id="statTotal">Total: 0</span>
-                            <span id="statLulus" class="text-green-600">Lulus: 0</span>
+                        <div class="p-6 bg-[#fafafc] border-t grid grid-cols-3 gap-4">
+                            <div class="bg-white p-3 rounded-lg border shadow-sm text-center">
+                                <p class="text-[9px] text-gray-400 font-bold uppercase">Total Pendaftar</p>
+                                <span id="statTotal" class="text-lg font-bold text-[#001e40]">0</span>
+                            </div>
+                            <div class="bg-white p-3 rounded-lg border shadow-sm text-center">
+                                <p class="text-[9px] text-green-400 font-bold uppercase">Peserta Lulus</p>
+                                <span id="statLulus" class="text-lg font-bold text-green-600">0</span>
+                            </div>
+                            <div class="bg-white p-3 rounded-lg border shadow-sm text-center">
+                                <p class="text-[9px] text-red-400 font-bold uppercase">Tidak Lulus</p>
+                                <span id="statGagal" class="text-lg font-bold text-red-600">0</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -89,48 +131,48 @@
     </main>
 
     <script>
-        // Ambil data pas halaman dibuka
         window.onload = function() { tampilkanData(); };
 
         function simpanData() {
             const nama = document.getElementById('nama').value;
             const kode = document.getElementById('kode').value;
+            const jk = document.getElementById('jk').value;
+            const ortu = document.getElementById('ortu').value;
             const mat = parseFloat(document.getElementById('mat').value) || 0;
             const ing = parseFloat(document.getElementById('ing').value) || 0;
             const umum = parseFloat(document.getElementById('umum').value) || 0;
 
-            if(!nama || !kode) return alert("Isi data dulu bro!");
+            if(!nama || !kode) return alert("Lengkapi Nama dan Kode Pendaftaran!");
 
-            // LOGIKA 1: Lokasi Tes [cite: 36, 37]
-            let lokasi = "Gedung A";
+            // LOGIKA 1: Lokasi Tes dari Kode 
+            let lokasi = "Luar Kampus";
             const charAwal = kode.charAt(0).toUpperCase();
-            if(charAwal === 'B') lokasi = "Gedung B";
-            if(charAwal === 'V') lokasi = "Viktor";
+            if(charAwal === 'A') lokasi = "Gedung A";
+            else if(charAwal === 'B') lokasi = "Gedung B";
+            else if(charAwal === 'V') lokasi = "Viktor";
 
-            // LOGIKA 2: Rata-rata [cite: 45]
+            // LOGIKA 2: Perhitungan Rata-rata 
             const rata = (mat + ing + umum) / 3;
 
-            // LOGIKA 3: Keterangan [cite: 46]
+            // LOGIKA 3: Keterangan Kelulusan 
             let status = "Tidak Lulus";
             if(rata >= 70) status = "Lulus";
             else if(rata >= 60) status = "Cadangan";
 
-            const pendaftar = {
+            const payload = {
                 id: Date.now(),
-                nama, kode, lokasi, 
+                nama, kode, lokasi, jk, ortu,
+                mat, ing, umum,
                 rata: rata.toFixed(1),
                 status
             };
 
-            // Simpan ke LocalStorage [cite: 17]
             let data = JSON.parse(localStorage.getItem('unpam_pmb')) || [];
-            data.push(pendaftar);
+            data.push(payload);
             localStorage.setItem('unpam_pmb', JSON.stringify(data));
 
             tampilkanData();
-            // Clear Input
-            document.getElementById('nama').value = '';
-            document.getElementById('kode').value = '';
+            resetForm();
         }
 
         function tampilkanData() {
@@ -138,32 +180,47 @@
             const tbody = document.querySelector('#tabelPendaftar tbody');
             tbody.innerHTML = '';
 
-            data.reverse().forEach(p => {
-                let colorClass = "bg-red-100 text-red-700 border-red-200";
-                if(p.status === "Lulus") colorClass = "bg-green-100 text-green-700 border-green-200";
-                if(p.status === "Cadangan") colorClass = "bg-yellow-100 text-yellow-700 border-yellow-200";
+            data.slice().reverse().forEach(p => {
+                let statusStyle = "bg-red-50 text-red-600 border-red-100";
+                if(p.status === "Lulus") statusStyle = "bg-green-50 text-green-600 border-green-100";
+                if(p.status === "Cadangan") statusStyle = "bg-yellow-50 text-yellow-600 border-yellow-100";
 
                 tbody.innerHTML += `
-                    <tr class="border-b hover:bg-gray-50">
-                        <td class="p-4 font-mono">${p.kode}</td>
-                        <td class="p-4 font-bold">${p.nama}</td>
-                        <td class="p-4 text-xs">${p.lokasi}</td>
-                        <td class="p-4 text-center font-bold">${p.rata}</td>
+                    <tr class="hover:bg-gray-50 transition-colors">
+                        <td class="p-4 font-mono font-bold text-blue-800">${p.kode}</td>
+                        <td class="p-4 font-semibold">${p.nama}</td>
+                        <td class="p-4 text-gray-500">${p.lokasi}</td>
+                        <td class="p-4">${p.ortu}</td>
+                        <td class="p-4 text-center">${p.mat}</td>
+                        <td class="p-4 text-center">${p.ing}</td>
+                        <td class="p-4 text-center">${p.umum}</td>
+                        <td class="p-4 text-center font-bold bg-gray-50">${p.rata}</td>
                         <td class="p-4 text-center">
-                            <span class="px-3 py-1 rounded-full text-[10px] font-bold border ${colorClass}">${p.status}</span>
+                            <span class="px-2 py-1 rounded text-[10px] font-bold border ${statusStyle}">${p.status.toUpperCase()}</span>
                         </td>
                     </tr>
                 `;
             });
 
-            // Update Summary
-            document.getElementById('statTotal').innerText = `Total: ${data.length}`;
-            document.getElementById('statLulus').innerText = `Lulus: ${data.filter(x => x.status === "Lulus").length}`;
+            // Update Statistics
+            document.getElementById('statTotal').innerText = data.length;
+            document.getElementById('statLulus').innerText = data.filter(x => x.status === "Lulus").length;
+            document.getElementById('statGagal').innerText = data.filter(x => x.status === "Tidak Lulus").length;
+        }
+
+        function resetForm() {
+            document.getElementById('nama').value = '';
+            document.getElementById('kode').value = '';
+            document.getElementById('mat').value = '';
+            document.getElementById('ing').value = '';
+            document.getElementById('umum').value = '';
         }
 
         function resetData() {
-            localStorage.removeItem('unpam_pmb');
-            tampilkanData();
+            if(confirm("Hapus semua data pendaftar?")) {
+                localStorage.removeItem('unpam_pmb');
+                tampilkanData();
+            }
         }
     </script>
 </body>
