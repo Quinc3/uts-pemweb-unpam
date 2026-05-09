@@ -1,9 +1,40 @@
 /* style.css */
-body {
-    font-family: 'Inter', sans-serif;
-    background-color: #f0f2f5;
+
+/* Reset Dasar */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f8fafc;
+    color: #1e293b;
+    overflow-x: hidden;
+}
+
+/* --- SIDEBAR STYLING --- */
+aside {
+    background-color: #ffffff;
+    transition: all 0.3s ease;
+}
+
+/* Navigasi Item Kuning (Aktif) */
+.nav-item-active {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    background-color: #fed65b; /* Warna kuning khas portal */
+    color: #745c00;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    height: 48px; /* Mengunci tinggi agar tidak melar */
+    cursor: pointer;
+}
+
+/* --- FORM STYLING --- */
 .form-label {
     font-size: 10px;
     font-weight: 700;
@@ -16,25 +47,30 @@ body {
 .input-field {
     width: 100%;
     border: 1px solid #c3c6d1;
-    padding: 0.5rem;
-    border-radius: 0.375rem;
+    padding: 0.6rem;
+    border-radius: 0.5rem;
     font-size: 0.875rem;
     outline: none;
-    transition: border-color 0.2s;
+    transition: all 0.2s ease;
+    background-color: #ffffff;
 }
 
 .input-field:focus {
     border-color: #003366;
+    box-shadow: 0 0 0 3px rgba(0, 51, 102, 0.1);
 }
 
+/* Tombol Aksi */
 .btn-primary {
-    padding: 0.6rem 2rem;
     background-color: #003366;
-    color: white;
+    color: #ffffff;
+    padding: 0.75rem 2rem;
+    border-radius: 0.5rem;
     font-weight: 700;
-    border-radius: 0.375rem;
     text-transform: uppercase;
-    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+    transition: background 0.2s;
+    border: none;
+    cursor: pointer;
 }
 
 .btn-primary:hover {
@@ -42,67 +78,107 @@ body {
 }
 
 .btn-secondary {
-    padding: 0.6rem 2rem;
-    background-color: white;
+    background-color: #ffffff;
     border: 1px solid #c3c6d1;
     color: #4b5563;
+    padding: 0.75rem 2rem;
+    border-radius: 0.5rem;
     font-weight: 700;
-    border-radius: 0.375rem;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+.btn-secondary:hover {
+    background-color: #f1f5f9;
+}
+
+/* --- TABEL & BADGE STYLING --- */
+.location-badge {
+    font-size: 10px;
+    font-weight: 800;
+    padding: 4px 10px;
+    border-radius: 6px;
+    background-color: #f1f5f9;
+    color: #64748b;
     text-transform: uppercase;
 }
 
 .btn-delete-selected {
     font-size: 10px;
-    background-color: #fef2f2;
     color: #dc2626;
-    padding: 0.4rem 0.8rem;
-    border-radius: 0.375rem;
+    background: #fef2f2;
+    padding: 6px 12px;
+    border-radius: 6px;
     font-weight: 700;
     text-transform: uppercase;
+    border: 1px solid #fee2e2;
+    cursor: pointer;
 }
 
+.btn-delete-selected:hover {
+    background-color: #dc2626;
+    color: #ffffff;
+}
+
+/* Footer Statistik */
 .stat-label {
     font-size: 11px;
     font-weight: 700;
-    color: #6b7280;
+    color: #64748b;
     text-transform: uppercase;
-    width: 12rem;
+    width: 200px;
     text-align: right;
 }
 
 .stat-value {
     font-size: 11px;
-    font-weight: 700;
-    width: 3rem;
+    width: 50px;
     text-align: left;
 }
 
-/* RESPONSIVE MOBILE */
+/* --- RESPONSIVE CONFIG (MOBILE) --- */
 @media (max-width: 1024px) {
+    /* Sidebar berubah jadi bar atas */
     aside {
         width: 100% !important;
+        height: auto !important;
         position: relative !important;
-        padding: 1rem;
+        flex-direction: row !important;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.75rem 1rem;
     }
-    
+
+    aside nav, aside div:last-child {
+        display: none !important;
+    }
+
     main {
         margin-left: 0 !important;
         padding: 1rem !important;
     }
 
+    /* Tabel bisa di-scroll ke samping di HP */
     .overflow-x-auto {
         display: block;
         width: 100%;
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
+        border-radius: 0.5rem;
     }
 
     table {
-        min-width: 1000px;
+        min-width: 1000px; [span_2](start_span)/* Memaksa lebar agar kolom tidak berhimpitan[span_2](end_span) */
     }
 
+    /* Tombol jadi lebar penuh */
     .btn-primary, .btn-secondary {
         width: 100%;
         margin-bottom: 0.5rem;
+    }
+    
+    .stat-label {
+        text-align: left;
+        width: auto;
     }
 }
