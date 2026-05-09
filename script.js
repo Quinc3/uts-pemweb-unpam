@@ -1,4 +1,4 @@
-/* script.js - VERSI FINAL KOMPLIT */
+/* script.js - VERSI FINAL KOMPLIT DENGAN FITUR LAINNYA */
 
 let editId = null;
 const daftarBulan = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
@@ -7,7 +7,7 @@ const daftarBulan = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Ju
 function setTodayDate() {
     const today = new Date();
     const dd = String(today.getDate()).padStart(2, '0');
-    const mm = String(today.getMonth() + 1).padStart(2, '0'); 
+    const mm = String(today.getMonth() + 1).padStart(2, '0');
     const yyyy = today.getFullYear();
     const field = document.getElementById('tglDaftar');
     if (field) field.value = `${dd}/${mm}/${yyyy}`;
@@ -15,7 +15,7 @@ function setTodayDate() {
 
 // 2. AUTO HINT LOKASI (A, B, V)
 function updateLocationHint() {
-    const input = document.getElementById('kodeGedung'); // Sesuaikan ID di HTML
+    const input = document.getElementById('kodeGedung');
     const hint = document.getElementById('autoLocation');
     if (!input || !hint) return;
 
@@ -42,11 +42,25 @@ function validasiNilai(el) {
     if (el.value < 0) el.value = 0;
 }
 
-// 4. SIMPAN & UPDATE DATA
+// 4. TOGGLE INPUT PEKERJAAN LAINNYA
+function togglePekerjaanLainnya() {
+    const selectOrtu = document.getElementById('ortu');
+    const inputLainnya = document.getElementById('ortuLainnya');
+
+    if (selectOrtu.value === 'Lainnya') {
+        inputLainnya.classList.remove('hidden');
+        inputLainnya.focus();
+    } else {
+        inputLainnya.classList.add('hidden');
+        inputLainnya.value = '';
+    }
+}
+
+// 5. SIMPAN & UPDATE DATA
 function simpanData() {
     let data = JSON.parse(localStorage.getItem('unpam_uts')) || [];
     const limit = parseInt(document.getElementById('jmlData').value) || 0;
-    
+
     const nama = document.getElementById('nama').value;
     const gedungInput = document.getElementById('kodeGedung').value.toUpperCase();
     const mat = parseFloat(document.getElementById('mat').value) || 0;
@@ -57,23 +71,25 @@ function simpanData() {
     if (!nama || !gedungInput) return alert("Nama dan Gedung (A/B/V) wajib diisi!");
     if (mat > 100 || ing > 100 || umum > 100) return alert("Nilai tidak boleh lebih dari 100!");
 
-    // Logika Kode Otomatis: [Gedung][Bulan]-[Digit Tahun]-[Urutan]
-    // Contoh: A5-6-1
+    // Logika Pekerjaan Lainnya
+    let pekerjaanFinal = document.getElementById('ortu').value;
+    if (pekerjaanFinal === 'Lainnya') {
+        const customJob = document.getElementById('ortuLainnya').value;
+        pekerjaanFinal = customJob ? customJob : 'Lainnya';
+    }
+
+    // Logika Kode Otomatis
     let kodeFinal = "";
     if (editId) {
         kodeFinal = data.find(x => x.id === editId).kode;
     } else {
         const now = new Date();
-        const bulan = now.getMonth() + 1;
-        const tahun = String(now.getFullYear()).slice(-1);
         const urutan = data.length + 1;
-        kodeFinal = `${gedungInput.charAt(0)}${bulan}-${tahun}-${urutan}`;
+        kodeFinal = `${gedungInput.charAt(0)}${now.getMonth() + 1}-${String(now.getFullYear()).slice(-1)}-${urutan}`;
     }
 
-    // Validasi Kuota
     if (!editId && limit > 0 && data.length >= limit) return alert("Kuota pendaftaran penuh!");
 
-    // Perhitungan
     const rata = ((mat + ing + umum) / 3).toFixed(1);
     let status = "Tidak Lulus", color = "text-red-600";
     if (rata >= 70) { status = "Lulus"; color = "text-green-600"; }
@@ -85,7 +101,7 @@ function simpanData() {
         kode: kodeFinal,
         tmpLahir: document.getElementById('tmpLahir').value,
         jk: document.getElementById('jk').value,
-        ortu: document.getElementById('ortu').value,
+        ortu: pekerjaanFinal,
         lokasi: (kodeFinal.startsWith('A')) ? "GEDUNG A" : (kodeFinal.startsWith('B')) ? "GEDUNG B" : "VIKTOR",
         bulanTes: daftarBulan[new Date().getMonth()],
         mat, ing, umum, rata, status, color,
@@ -104,10 +120,10 @@ function simpanData() {
     localStorage.setItem('unpam_uts', JSON.stringify(data));
     renderTable();
     resetForm();
-    alert(`Berhasil! Kode Anda: ${kodeFinal}`);
+    alert(`Berhasil! Kode: ${kodeFinal}`);
 }
 
-// 5. RENDER TABEL (12 KOLOM)
+// 6. RENDER TABEL
 function renderTable() {
     const data = JSON.parse(localStorage.getItem('unpam_uts')) || [];
     const tbody = document.querySelector('#tabelPendaftar tbody');
@@ -133,8 +149,8 @@ function renderTable() {
                 <td class="p-3 border-r">${p.ortu}</td>
                 <td class="p-3 border-r font-semibold text-gray-500">${p.lokasi}</td>
                 <td class="p-3 border-r font-bold text-gray-500">${p.bulanTes}</td>
-                <td class="p-3 border-r text-center">${p.mat}</td>
                 <td class="p-3 border-r text-center">${p.ing}</td>
+                <td class="p-3 border-r text-center">${p.mat}</td>
                 <td class="p-3 border-r text-center">${p.umum}</td>
                 <td class="p-3 border-r text-center font-black bg-gray-50 text-[#003366]">${p.rata}</td>
                 <td class="p-3 text-center font-bold ${p.color}">${p.status.toUpperCase()}</td>
@@ -146,7 +162,7 @@ function renderTable() {
     document.getElementById('statGagal').innerText = `: ${data.filter(x => x.status === 'Tidak Lulus').length}`;
 }
 
-// 6. EDIT & DELETE FUNGSI
+// 7. EDIT & DELETE FUNGSI
 function persiapkanEdit(id) {
     const data = JSON.parse(localStorage.getItem('unpam_uts')) || [];
     const p = data.find(x => x.id === id);
@@ -156,11 +172,22 @@ function persiapkanEdit(id) {
         document.getElementById('kodeGedung').value = p.kode.charAt(0);
         document.getElementById('tmpLahir').value = p.tmpLahir;
         document.getElementById('jk').value = p.jk;
-        document.getElementById('ortu').value = p.ortu;
         document.getElementById('asal').value = p.asal || '';
         document.getElementById('mat').value = p.mat;
         document.getElementById('ing').value = p.ing;
         document.getElementById('umum').value = p.umum;
+
+        // Logika Load Pekerjaan Ortu saat Edit
+        const standarJob = ['PNS', 'Swasta', 'Wiraswasta', 'Buruh'];
+        if (standarJob.includes(p.ortu)) {
+            document.getElementById('ortu').value = p.ortu;
+            document.getElementById('ortuLainnya').classList.add('hidden');
+        } else {
+            document.getElementById('ortu').value = 'Lainnya';
+            document.getElementById('ortuLainnya').value = p.ortu;
+            document.getElementById('ortuLainnya').classList.remove('hidden');
+        }
+
         document.getElementById('textBtn').innerText = "Update Data";
         window.scrollTo({ top: 0, behavior: 'smooth' });
         updateLocationHint();
@@ -196,6 +223,7 @@ function resetForm() {
     document.querySelectorAll('input, select').forEach(i => {
         if (i.id !== 'jmlData' && i.id !== 'tglDaftar') i.value = '';
     });
+    document.getElementById('ortuLainnya').classList.add('hidden');
     updateLocationHint();
     setTodayDate();
 }
