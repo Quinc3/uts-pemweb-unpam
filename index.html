@@ -6,22 +6,22 @@
     <title>UTS Pemrograman Web II - PMB UNPAM</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="flex flex-col lg:flex-row min-h-screen bg-[#f8fafc]">
 
     <aside class="w-full lg:w-64 bg-white border-b lg:border-r border-[#c3c6d1] flex lg:flex-col lg:fixed h-auto lg:h-full shadow-md z-40">
         <div class="p-6 flex items-center gap-3">
-            <div class="bg-[#003366] w-10 h-10 rounded flex items-center justify-center text-white font-bold">U</div>
+            <div class="bg-[#003366] w-10 h-10 rounded flex items-center justify-center text-white font-bold text-xl">U</div>
             <div>
                 <h1 class="font-bold text-[#001e40] text-sm">Portal PMB</h1>
-                <p class="text-[9px] text-gray-500 uppercase">Universitas Pamulang</p>
+                <p class="text-[9px] text-gray-500 uppercase tracking-wider font-bold">Universitas Pamulang</p>
             </div>
         </div>
         
         <nav class="flex-1 px-4 mt-4 mb-4 lg:mb-0">
-            <div class="nav-item-active flex items-center gap-3 px-4 py-3 bg-[#fed65b] text-[#745c00] rounded-xl shadow-sm cursor-pointer h-[48px]">
+            <div class="flex items-center gap-3 px-4 py-3 bg-[#fed65b] text-[#745c00] rounded-xl shadow-sm cursor-pointer h-[48px]">
                 <span class="material-symbols-outlined text-lg">assignment_ind</span>
                 <span class="text-sm font-bold uppercase tracking-tight">Pendaftaran</span>
             </div>
@@ -36,55 +36,63 @@
 
     <main class="flex-1 w-full lg:ml-64 p-4 lg:p-8 pb-20">
         <div class="max-w-[1200px] mx-auto">
+            
+            <div class="mb-6">
+                <h1 class="text-2xl font-bold text-[#003366]">Pendaftaran Mahasiswa Baru</h1>
+                <p class="text-xs text-gray-500">Tahun Akademik 2026/2027 - Universitas Pamulang</p>
+            </div>
 
-            <div class="bg-white border border-[#c3c6d1] rounded-xl shadow-sm mb-8">
-                <div class="bg-gray-50 px-6 py-3 border-b border-[#c3c6d1] rounded-t-xl flex justify-between items-center">
-                    <h2 class="text-sm font-bold text-[#001e40]">INPUT PENDAFTARAN</h2>
-                    <div id="autoLocation" class="location-badge text-[10px] font-bold px-2 py-1 bg-gray-100 text-gray-400 rounded">MENUNGGU KODE...</div>
+            <div class="bg-white border border-[#c3c6d1] rounded-xl shadow-sm mb-8 overflow-hidden">
+                <div class="bg-gray-50 px-6 py-4 border-b border-[#c3c6d1] flex justify-between items-center">
+                    <h2 class="text-sm font-bold text-[#001e40] uppercase tracking-tight">Input Data Calon Mahasiswa</h2>
+                    <div class="flex items-center gap-2">
+                        <span class="text-[9px] text-gray-400 font-bold uppercase">Lokasi Tes:</span>
+                        <div id="autoLocation" class="text-[10px] font-bold px-2 py-1 bg-gray-100 text-gray-400 rounded">MENUNGGU KODE...</div>
+                    </div>
                 </div>
                 
-                <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4">
-                    <div class="space-y-3">
+                <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-5">
+                    <div class="space-y-4">
                         <div>
-                            <label class="form-label">Kuota Input Data</label>
-                            <input type="number" id="jmlData" class="input-field" placeholder="Limit data">
+                            <label class="text-[10px] font-bold text-gray-500 uppercase mb-1 block">Kuota Input Data</label>
+                            <input type="number" id="jmlData" class="w-full border border-[#c3c6d1] p-2.5 rounded-lg text-sm outline-none focus:border-[#003366]" placeholder="Limit data">
                         </div>
                         <div>
-                            <label class="form-label">Kode Pendaftaran (A/B/V)</label>
-                            <input type="text" id="kode" oninput="updateLocationHint()" placeholder="A2-101-9" class="input-field font-mono uppercase font-bold text-blue-800">
+                            <label class="text-[10px] font-bold text-gray-500 uppercase mb-1 block">Kode Pendaftaran (A/B/V)</label>
+                            <input type="text" id="kode" oninput="updateLocationHint()" placeholder="Contoh: A2-101-9" class="w-full border border-[#c3c6d1] p-2.5 rounded-lg text-sm font-mono uppercase font-bold text-blue-800 outline-none focus:border-[#003366]">
                         </div>
                         <div>
-                            <label class="form-label">Nama Pendaftar</label>
-                            <input type="text" id="nama" class="input-field">
+                            <label class="text-[10px] font-bold text-gray-500 uppercase mb-1 block">Nama Lengkap</label>
+                            <input type="text" id="nama" class="w-full border border-[#c3c6d1] p-2.5 rounded-lg text-sm outline-none focus:border-[#003366]">
                         </div>
-                        <div class="grid grid-cols-2 gap-2">
+                        <div class="grid grid-cols-2 gap-3">
                             <div>
-                                <label class="form-label">Tgl Daftar (Otomatis)</label>
-                                <input type="text" id="tglDaftar" class="input-field bg-gray-100 text-gray-500 font-semibold" readonly>
+                                <label class="text-[10px] font-bold text-gray-500 uppercase mb-1 block">Tgl Daftar (System)</label>
+                                <input type="text" id="tglDaftar" class="w-full border border-[#c3c6d1] p-2.5 rounded-lg text-sm bg-gray-50 text-gray-500 font-semibold" readonly>
                             </div>
                             <div>
-                                <label class="form-label">Tgl Lahir (Pilih)</label>
-                                <input type="date" id="tglLahir" class="input-field">
+                                <label class="text-[10px] font-bold text-gray-500 uppercase mb-1 block">Tanggal Lahir</label>
+                                <input type="date" id="tglLahir" class="w-full border border-[#c3c6d1] p-2.5 rounded-lg text-sm outline-none focus:border-[#003366]">
                             </div>
                         </div>
                     </div>
 
-                    <div class="space-y-3">
+                    <div class="space-y-4">
                         <div>
-                            <label class="form-label">Asal Sekolah</label>
-                            <input type="text" id="asal" class="input-field">
+                            <label class="text-[10px] font-bold text-gray-500 uppercase mb-1 block">Asal Sekolah</label>
+                            <input type="text" id="asal" class="w-full border border-[#c3c6d1] p-2.5 rounded-lg text-sm outline-none focus:border-[#003366]">
                         </div>
-                        <div class="grid grid-cols-2 gap-2">
+                        <div class="grid grid-cols-2 gap-3">
                             <div>
-                                <label class="form-label">Jenis Kelamin</label>
-                                <select id="jk" class="input-field">
+                                <label class="text-[10px] font-bold text-gray-500 uppercase mb-1 block">Jenis Kelamin</label>
+                                <select id="jk" class="w-full border border-[#c3c6d1] p-2.5 rounded-lg text-sm">
                                     <option value="Laki-laki">Laki-laki</option>
                                     <option value="Perempuan">Perempuan</option>
                                 </select>
                             </div>
                             <div>
-                                <label class="form-label">Pekerjaan Ortu</label>
-                                <select id="ortu" class="input-field">
+                                <label class="text-[10px] font-bold text-gray-500 uppercase mb-1 block">Pekerjaan Ortu</label>
+                                <select id="ortu" class="w-full border border-[#c3c6d1] p-2.5 rounded-lg text-sm">
                                     <option value="PNS">PNS</option>
                                     <option value="Swasta">Swasta</option>
                                     <option value="Wiraswasta">Wiraswasta</option>
@@ -93,36 +101,36 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="pt-2">
-                            <label class="form-label text-blue-800 border-b border-blue-100 pb-1 mb-2">Nilai Tes Seleksi</label>
-                            <div class="grid grid-cols-3 gap-2">
-                                <div>
-                                    <label class="text-[9px] text-gray-400 uppercase font-bold text-center block">MAT</label>
-                                    <input type="number" id="mat" class="input-field text-center" placeholder="0">
-                                </div>
-                                <div>
-                                    <label class="text-[9px] text-gray-400 uppercase font-bold text-center block">ING</label>
-                                    <input type="number" id="ing" class="input-field text-center" placeholder="0">
-                                </div>
-                                <div>
-                                    <label class="text-[9px] text-gray-400 uppercase font-bold text-center block">UMUM</label>
-                                    <input type="number" id="umum" class="input-field text-center" placeholder="0">
-                                </div>
+                        <div class="pt-3 border-t border-gray-50 mt-4">
+                            <label class="text-[10px] font-bold text-blue-800 uppercase mb-3 block">Nilai Tes Seleksi</label>
+                            <div class="grid grid-cols-3 gap-3">
+                                <input type="number" id="mat" class="border p-2 rounded text-center text-sm" placeholder="MAT">
+                                <input type="number" id="ing" class="border p-2 rounded text-center text-sm" placeholder="ING">
+                                <input type="number" id="umum" class="border p-2 rounded text-center text-sm" placeholder="UMUM">
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="px-6 py-4 bg-gray-50 border-t border-[#c3c6d1] flex flex-col md:flex-row gap-2 rounded-b-xl">
-                    <button onclick="simpanData()" id="btnSimpan" class="btn-primary">Simpan Data</button>
-                    <button onclick="resetForm()" class="btn-secondary">Hapus Form</button>
+                <div class="px-6 py-5 bg-gray-50 border-t border-[#c3c6d1] flex gap-3">
+                    <button onclick="simpanData()" id="btnSimpan" class="bg-[#003366] text-white px-8 py-2.5 rounded-lg font-bold uppercase text-xs hover:bg-[#001e40] flex items-center gap-2">
+                        <span class="material-symbols-outlined text-sm">save</span>
+                        <span id="textBtnSimpan">Simpan Data</span>
+                    </button>
+                    <button onclick="resetForm()" class="bg-white border border-[#c3c6d1] text-gray-600 px-8 py-2.5 rounded-lg font-bold uppercase text-xs hover:bg-gray-100 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-sm">restart_alt</span>
+                        Reset
+                    </button>
                 </div>
             </div>
 
             <div class="bg-white border border-[#c3c6d1] rounded-xl shadow-sm overflow-hidden">
-                <div class="bg-gray-50 px-6 py-3 border-b border-[#c3c6d1] flex justify-between items-center">
-                    <h2 class="text-sm font-bold text-[#001e40]">TABEL DATA PENDAFTAR</h2>
-                    <button onclick="hapusTerpilih()" class="btn-delete-selected">Hapus Terpilih</button>
+                <div class="bg-gray-50 px-6 py-4 border-b border-[#c3c6d1] flex justify-between items-center">
+                    <h2 class="text-sm font-bold text-[#001e40] uppercase tracking-tight">Database Pendaftar</h2>
+                    <button onclick="hapusTerpilih()" class="text-[10px] text-red-600 bg-red-50 px-4 py-1.5 rounded-lg font-bold uppercase hover:bg-red-600 hover:text-white flex items-center gap-1">
+                        <span class="material-symbols-outlined text-sm">delete_sweep</span>
+                        Hapus Terpilih
+                    </button>
                 </div>
                 <div class="overflow-x-auto">
                     <table class="w-full text-left text-[11px]" id="tabelPendaftar">
@@ -131,7 +139,7 @@
                                 <th class="p-3 border-r text-center w-10"><input type="checkbox" id="selectAll" onclick="toggleSelectAll()"></th>
                                 <th class="p-3 border-r text-center w-24">AKSI</th>
                                 <th class="p-3 border-r">KODE</th>
-                                <th class="p-3 border-r">NAMA</th>
+                                <th class="p-3 border-r">NAMA LENGKAP</th>
                                 <th class="p-3 border-r">LOKASI TES</th>
                                 <th class="p-3 border-r text-blue-700">BULAN TES</th>
                                 <th class="p-3 border-r text-center">ING</th>
@@ -141,27 +149,10 @@
                                 <th class="p-3 text-center">STATUS</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-gray-200">
-                            </tbody>
+                        <tbody class="divide-y divide-gray-200"></tbody>
                     </table>
                 </div>
-                
-                <div class="p-6 bg-gray-50 border-t flex flex-col gap-2 items-end">
-                    <div class="flex gap-10">
-                        <div class="stat-label">Jumlah Pendaftar</div>
-                        <div id="statTotal" class="stat-value font-bold text-[#003366]">: 0</div>
-                    </div>
-                    <div class="flex gap-10">
-                        <div class="stat-label">Peserta Lulus</div>
-                        <div id="statLulus" class="stat-value font-bold text-green-600">: 0</div>
-                    </div>
-                    <div class="flex gap-10">
-                        <div class="stat-label">Peserta Tidak Lulus</div>
-                        <div id="statGagal" class="stat-value font-bold text-red-600">: 0</div>
-                    </div>
-                </div>
             </div>
-
         </div>
     </main>
 
