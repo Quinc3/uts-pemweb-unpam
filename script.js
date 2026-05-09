@@ -1,8 +1,7 @@
-// Inisialisasi Data
 let editId = null;
 const daftarBulan = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
 
-// 1. Set Tanggal Hari Ini Otomatis
+// Set Tanggal Daftar Otomatis dari System
 function setTodayDate() {
     const today = new Date();
     const dd = String(today.getDate()).padStart(2, '0');
@@ -12,7 +11,7 @@ function setTodayDate() {
     if (field) field.value = `${dd}/${mm}/${yyyy}`;
 }
 
-// 2. Logika Auto Lokasi (Update Badge di Header)
+// Auto Hint Lokasi Tes
 function updateLocationHint() {
     const kodeInput = document.getElementById('kode');
     const hint = document.getElementById('autoLocation');
@@ -20,8 +19,6 @@ function updateLocationHint() {
 
     const kode = kodeInput.value.toUpperCase();
     const charAwal = kode.charAt(0);
-    
-    // Konfigurasi Warna & Teks sesuai UNPAM
     const config = {
         'A': { text: "GEDUNG A", class: "bg-green-600 text-white" },
         'B': { text: "GEDUNG B", class: "bg-yellow-500 text-white" },
@@ -31,51 +28,45 @@ function updateLocationHint() {
     const res = config[charAwal];
     if (res) {
         hint.innerText = res.text;
-        hint.className = `text-[10px] font-bold px-3 py-1 ${res.class} rounded-full tracking-wider uppercase shadow-md transition-all duration-300`;
+        hint.className = `text-[10px] font-bold px-3 py-1 ${res.class} rounded-full tracking-wider uppercase shadow-sm`;
     } else {
         hint.innerText = "MENUNGGU KODE...";
-        hint.className = "text-[10px] font-bold px-3 py-1 bg-gray-200 text-gray-500 rounded-full tracking-wider uppercase transition-all duration-300";
+        hint.className = "text-[10px] font-bold px-3 py-1 bg-gray-200 text-gray-500 rounded-full tracking-wider uppercase";
     }
 }
 
-// 3. Simpan Data (Create & Update)
+// Simpan & Update Data (Logika Anti-Duplikat + Kuota)
 function simpanData() {
     const limitInput = document.getElementById('jmlData').value;
     const limit = parseInt(limitInput) || 0;
     let data = JSON.parse(localStorage.getItem('unpam_uts')) || [];
 
-    // Cek Kuota (Hanya jika input baru, bukan edit)
-    if (!editId && limit > 0 && data.length >= limit) {
-        return alert(`Maaf, kuota pendaftaran sudah penuh (${limit} data).`);
-    }
-
     const nama = document.getElementById('nama').value;
     const kode = document.getElementById('kode').value.toUpperCase();
 
-    if (!nama || !kode) {
-        return alert("Nama dan Kode Pendaftaran wajib diisi!");
-    }
+    if (!nama || !kode) return alert("Peringatan: Nama dan Kode tidak boleh kosong!");
 
-    // Penentuan Lokasi & Bulan
+    // --- LOGIKA ANTI DUPLIKAT ---
+    const isDuplicate = data.some(p => p.kode === kode && p.id !== editId);
+    if (isDuplicate) return alert(`Error: Kode ${kode} sudah terdaftar di database!`);
+
+    // Validasi Kuota
+    if (!editId && limit > 0 && data.length >= limit) return alert(`Gagal: Kuota pendaftaran penuh (${limit}).`);
+
+    // Logika Lokasi & Bulan Tes
     let lokasi = (kode.startsWith('A')) ? "GEDUNG A" : (kode.startsWith('B')) ? "GEDUNG B" : "VIKTOR";
     let bulanTes = daftarBulan[new Date().getMonth()];
 
-    // Hitung Nilai
+    // Perhitungan Nilai
     const mat = parseFloat(document.getElementById('mat').value) || 0;
     const ing = parseFloat(document.getElementById('ing').value) || 0;
     const umum = parseFloat(document.getElementById('umum').value) || 0;
     const rataRaw = (mat + ing + umum) / 3;
     const rata = rataRaw.toFixed(1);
 
-    // Penentuan Status
     let status = "Tidak Lulus", color = "text-red-600";
-    if (rataRaw >= 70) { 
-        status = "Lulus"; 
-        color = "text-green-600"; 
-    } else if (rataRaw >= 60) { 
-        status = "Cadangan"; 
-        color = "text-yellow-600"; 
-    }
+    if (rataRaw >= 70) { status = "Lulus"; color = "text-green-600"; }
+    else if (rataRaw >= 60) { status = "Cadangan"; color = "text-yellow-600"; }
 
     const rowData = {
         id: editId || Date.now(),
@@ -98,10 +89,10 @@ function simpanData() {
     localStorage.setItem('unpam_uts', JSON.stringify(data));
     renderTable();
     resetForm();
-    alert("Data berhasil diproses!");
+    alert("Sukses: Data pendaftaran berhasil diproses!");
 }
 
-// 4. Render Tabel dari LocalStorage
+// Render Tabel
 function renderTable() {
     const data = JSON.parse(localStorage.getItem('unpam_uts')) || [];
     const tbody = document.querySelector('#tabelPendaftar tbody');
@@ -120,15 +111,15 @@ function renderTable() {
                         <span class="material-symbols-outlined text-[18px]">delete_forever</span>
                     </button>
                 </td>
-                <td class="p-3 border-r font-mono text-blue-700 font-bold uppercase tracking-tighter">${p.kode}</td>
-                <td class="p-3 border-r font-bold text-gray-700">${p.nama}</td>
-                <td class="p-3 border-r font-semibold text-gray-500">${p.lokasi}</td>
+                <td class="p-3 border-r font-mono text-blue-700 font-bold uppercase">${p.kode}</td>
+                <td class="p-3 border-r font-bold">${p.nama}</td>
+                <td class="p-3 border-r font-semibold">${p.lokasi}</td>
                 <td class="p-3 border-r font-bold text-blue-800">${p.bulanTes}</td>
-                <td class="p-3 border-r text-center text-gray-600">${p.ing}</td>
-                <td class="p-3 border-r text-center text-gray-600">${p.mat}</td>
-                <td class="p-3 border-r text-center text-gray-600">${p.umum}</td>
-                <td class="p-3 border-r text-center font-bold bg-gray-50 text-[#003366]">${p.rata}</td>
-                <td class="p-3 text-center font-black uppercase text-[10px] ${p.color}">${p.status}</td>
+                <td class="p-3 border-r text-center">${p.ing}</td>
+                <td class="p-3 border-r text-center">${p.mat}</td>
+                <td class="p-3 border-r text-center">${p.umum}</td>
+                <td class="p-3 border-r text-center font-bold bg-gray-50">${p.rata}</td>
+                <td class="p-3 text-center font-bold ${p.color}">${p.status.toUpperCase()}</td>
             </tr>`;
     });
 
@@ -138,7 +129,7 @@ function renderTable() {
     document.getElementById('statGagal').innerText = `: ${data.filter(x => x.status === 'Tidak Lulus').length}`;
 }
 
-// 5. Persiapkan Edit (Tarik data ke form)
+// Persiapan Edit
 function persiapkanEdit(id) {
     const data = JSON.parse(localStorage.getItem('unpam_uts')) || [];
     const p = data.find(x => x.id === id);
@@ -154,15 +145,14 @@ function persiapkanEdit(id) {
         document.getElementById('ing').value = p.ing;
         document.getElementById('umum').value = p.umum;
         document.getElementById('textBtn').innerText = "Update Data";
-        
         window.scrollTo({ top: 0, behavior: 'smooth' });
         updateLocationHint();
     }
 }
 
-// 6. Fungsi Hapus
+// Hapus
 function hapusSatu(id) {
-    if (!confirm("Hapus data pendaftar ini?")) return;
+    if (!confirm("Konfirmasi: Hapus data pendaftar ini?")) return;
     let data = JSON.parse(localStorage.getItem('unpam_uts')) || [];
     localStorage.setItem('unpam_uts', JSON.stringify(data.filter(p => p.id !== id)));
     renderTable();
@@ -174,19 +164,17 @@ function toggleSelectAll() {
 }
 
 function hapusTerpilih() {
-    const checkboxes = document.querySelectorAll('.rowCheckbox:checked');
-    const selectedIds = Array.from(checkboxes).map(cb => parseInt(cb.value));
-    
-    if (selectedIds.length === 0) return alert("Pilih data yang ingin dihapus!");
-    if (!confirm(`Hapus ${selectedIds.length} data terpilih?`)) return;
+    const selected = Array.from(document.querySelectorAll('.rowCheckbox:checked')).map(cb => parseInt(cb.value));
+    if (selected.length === 0) return alert("Pilih minimal satu data!");
+    if (!confirm(`Hapus ${selected.length} data terpilih?`)) return;
 
     let data = JSON.parse(localStorage.getItem('unpam_uts')) || [];
-    localStorage.setItem('unpam_uts', JSON.stringify(data.filter(p => !selectedIds.includes(p.id))));
+    localStorage.setItem('unpam_uts', JSON.stringify(data.filter(p => !selected.includes(p.id))));
     document.getElementById('selectAll').checked = false;
     renderTable();
 }
 
-// 7. Reset Form
+// Reset Form
 function resetForm() {
     editId = null;
     document.getElementById('textBtn').innerText = "Simpan Data";
@@ -197,8 +185,4 @@ function resetForm() {
     setTodayDate();
 }
 
-// Jalankan saat halaman dibuka
-window.onload = function() {
-    renderTable();
-    setTodayDate();
-};
+window.onload = function() { renderTable(); setTodayDate(); };
