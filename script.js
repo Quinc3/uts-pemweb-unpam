@@ -59,7 +59,12 @@ function togglePekerjaanLainnya() {
 // 5. SIMPAN & UPDATE DATA
 function simpanData() {
     let data = JSON.parse(localStorage.getItem('unpam_uts')) || [];
-    const limit = parseInt(document.getElementById('jmlData').value) || 0;
+    const limitInput = document.getElementById('jmlData').value;
+    const limit = parseInt(limitInput) || 0;
+
+    if (limit <= 0) {
+        return alert("Gagal! Jumlah Kuota Data harus lebih dari 0.");
+    }
 
     const nama = document.getElementById('nama').value;
     const gedungInput = document.getElementById('kodeGedung').value.toUpperCase();
