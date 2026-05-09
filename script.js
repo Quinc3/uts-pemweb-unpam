@@ -1,4 +1,4 @@
-/* script.js - VERSI FINAL KOMPLIT DENGAN FITUR LAINNYA */
+/* script.js - VERSI FINAL KOMPLIT & TERURUT */
 
 let editId = null;
 const daftarBulan = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
@@ -71,21 +71,33 @@ function simpanData() {
     if (!nama || !gedungInput) return alert("Nama dan Gedung (A/B/V) wajib diisi!");
     if (mat > 100 || ing > 100 || umum > 100) return alert("Nilai tidak boleh lebih dari 100!");
 
-    // Logika Pekerjaan Lainnya
+    // --- LOGIKA PEKERJAAN FINAL ---
     let pekerjaanFinal = document.getElementById('ortu').value;
     if (pekerjaanFinal === 'Lainnya') {
         const customJob = document.getElementById('ortuLainnya').value;
         pekerjaanFinal = customJob ? customJob : 'Lainnya';
     }
 
-    // Logika Kode Otomatis
+    // --- LOGIKA KODE OTOMATIS TERURUT ---
     let kodeFinal = "";
     if (editId) {
         kodeFinal = data.find(x => x.id === editId).kode;
     } else {
         const now = new Date();
-        const urutan = data.length + 1;
-        kodeFinal = `${gedungInput.charAt(0)}${now.getMonth() + 1}-${String(now.getFullYear()).slice(-1)}-${urutan}`;
+        const bulan = now.getMonth() + 1;
+        const tahun = String(now.getFullYear()).slice(-1);
+        const gedung = gedungInput.charAt(0);
+
+        // Cari urutan pendaftar terakhir dari semua data (biar tetap urut walau ada yang dihapus)
+        let urutanBaru = 1;
+        if (data.length > 0) {
+            const daftarUrutan = data.map(p => {
+                const parts = p.kode.split('-');
+                return parseInt(parts[parts.length - 1]) || 0;
+            });
+            urutanBaru = Math.max(...daftarUrutan) + 1;
+        }
+        kodeFinal = `${gedung}${bulan}-${tahun}-${urutanBaru}`;
     }
 
     if (!editId && limit > 0 && data.length >= limit) return alert("Kuota pendaftaran penuh!");
